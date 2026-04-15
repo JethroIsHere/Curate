@@ -5,11 +5,17 @@ html, body {
     height: 100%;
 }
 
+/* Kills all item animations during the JS teleportation snap */
+.carousel-track.instant-snap .carousel-item img,
+.carousel-track.instant-snap .carousel-item .carousel-caption {
+    transition: none !important;
+}
+
 /* Base Container */
 .hero-container {
     position: relative;
     width: 100%;
-    min-height: 100vh;
+    min-height: 105vh;
     background-color: #000000;
     overflow: hidden; /* Prevents blur spillover */
 }
@@ -118,12 +124,14 @@ html, body {
     --font-mono: 'IBM Plex Mono', monospace;
     --font-serif: 'Playfair Display', serif;
     --padding-side: 20px;
+    /* Animation Variable */
+    --speed-slow: 20s;
 }
 
 /* Central Content Wrapper */
 .hero-content-wrapper {
     position: absolute; /* Positions on top of absolute background layers */
-    top: 15px;
+    top: 20px;
     left: 0;
     width: 100%;
     height: 100%;
@@ -134,7 +142,7 @@ html, body {
     gap: 10px;
     padding: 0 var(--padding-side);
     box-sizing: border-box;
-    padding-bottom: 20vh; 
+    padding-bottom: 30vh; 
     z-index: 10; /* Ensures it sits above backgrounds but below navbar */
 }
 
@@ -158,12 +166,31 @@ html, body {
     font-weight: 400;
 }
 
+/* 1. Define the Keyframes (Counter-Clockwise) */
+@keyframes spinCounterClockwise {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(-360deg);
+    }
+}
+
 .inline-icon {
     width: 40px;
     height: 40px;
     vertical-align: middle;
     margin-bottom: 6px; /* Optical adjustment to align with text baseline */
     margin-left: -10px; /* Space between icon and text */
+
+    /* Apply Animation */
+    animation-name: spinCounterClockwise;
+    animation-duration: var(--speed-slow);
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    
+    /* Crucial: Prevents wobbling */
+    transform-origin: center center;
 }
 
 /* Star Divider */
@@ -225,4 +252,88 @@ html, body {
 .cta-neo:active {
     transform: translate(-2px, 2px);
     box-shadow: -2px 2px 0px 0px rgba(0,0,0,1);
+}
+
+/* --- Depth of Field Carousel --- */
+.carousel-wrapper {
+    position: absolute;
+    bottom: 4vh;
+    left: 0;
+    width: 100%;
+    height: 300px; /* Ample room for the 174px image + caption */
+    z-index: 20;
+    display: flex;
+    align-items: center;
+}
+
+.carousel-track {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    /* Transform transition matches the image scaling transition */
+    transition: transform 0.5s ease-in-out; 
+    will-change: transform; /* Hardware acceleration */
+}
+
+.carousel-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    flex-shrink: 0;
+}
+
+/* Base Image Styling (Peripheral) */
+.carousel-item img {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #FFFFFF;
+    filter: blur(5px);
+    box-sizing: border-box;
+    transition: width 0.5s ease, height 0.5s ease, filter 0.5s ease, box-shadow 0.5s ease;
+}
+
+/* Active Image Styling (Center) */
+.carousel-item.active img {
+    width: 174px;
+    height: 174px;
+    filter: blur(0);
+    box-shadow: 0px 0px 50px 11px rgba(255, 255, 255, 0.15);
+}
+
+/* Captions */
+.carousel-caption {
+    position: absolute;
+    top: 100%;
+    margin-top: 15px;
+    text-align: center;
+    width: 220px; /* Prevents text wrapping issues */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease;
+}
+
+.carousel-item.active .carousel-caption {
+    opacity: 1;
+    visibility: visible;
+}
+
+.carousel-caption .title {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 14px;
+    color: #FFFFFF;
+    margin-bottom: 4px;
+}
+
+.carousel-caption .artist,
+.carousel-caption .year {
+    font-family: var(--font-mono);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 11px;
+    color: #FFFFFF;
+    line-height: 1.3;
 }
