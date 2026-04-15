@@ -58,3 +58,57 @@ html, body {
     opacity: 1;
     z-index: 3;
 }
+
+/* --- Mobile Navbar --- */
+.mobile-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 90px;
+    z-index: 50;
+
+    /* Blurry edge/fade effect into the hero section */
+    background: linear-gradient(to bottom, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%);
+    
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    box-sizing: border-box; /* Ensures padding doesn't break the 100% width */
+}
+
+/* Button resets for clean, clickable UI icons */
+.nav-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+}
+
+/* Standardized Icon Dimensions */
+.nav-icon {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    filter: invert(100%); /* Ensures icons are white for visibility on dark background */
+}
+
+/* Absolute Centering for the Logo */
+.logo-container {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-logo {
+    width: 115px;
+    height: auto;
+    display: block;
+}
