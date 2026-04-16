@@ -30,6 +30,32 @@ document.addEventListener('DOMContentLoaded', () => {
         updateCarousel();
     }
 
+    // Add to your app.js
+    function initDesktopAnimation() {
+        if (window.innerWidth < 1024) return; // Only run on desktop
+
+        const items = document.querySelectorAll('.stagger-item');
+        const displayDuration = 4000; // Adjustable: How long each item stays active (4s)
+        let currentStep = 0;
+
+        // Phase 1: Force all items highlighted for the first 6 seconds
+        items.forEach(item => item.classList.add('active'));
+
+        setTimeout(() => {
+            // Phase 2: Start the Infinite Loop
+            setInterval(() => {
+                // Remove active from everyone
+                items.forEach(item => item.classList.remove('active'));
+
+                // Highlight the current one in sequence
+                items[currentStep].classList.add('active');
+
+                // Increment or loop back
+                currentStep = (currentStep + 1) % items.length;
+            }, displayDuration);
+        }, 1000); // Wait for the initial 6s phase to end
+    }
+
     // The Seamless Infinite Loop Logic
     track.addEventListener('transitionend', (e) => {
         // Only listen to the track moving, ignore image size transitions
@@ -56,6 +82,8 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', () => {
         updateCarousel(true);
     });
+
+    initDesktopAnimation();
 
     updateCarousel(true);
     setInterval(moveNext, 5000);
