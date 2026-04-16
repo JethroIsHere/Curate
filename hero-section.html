@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="hero-section.css">
 </head>
 <body>
-    <nav class="mobile-navbar">
-        <button class="nav-btn" aria-label="Open Menu">
+    <nav class="mobile-navbar main-navbar">
+        <button class="nav-btn mobile-element" aria-label="Open Menu">
             <img src="icon_images/menu.png" alt="Menu Icon" class="nav-icon">
         </button>
 
@@ -21,38 +21,92 @@
             </a>
         </div>
 
-        <button class="nav-btn" aria-label="Search Gallery">
+        <button class="nav-btn mobile-element" aria-label="Search Gallery">
             <img src="icon_images/search.png" alt="Search Icon" class="nav-icon">
         </button>
+
+        <div class="desktop-search desktop-element">
+            <img src="icon_images/search.png" alt="Search Icon" class="search-icon-small">
+            <input type="text" placeholder="Find an artwork or artist...">
+        </div>
+
+        <div class="desktop-nav desktop-element">
+            <a href="#" class="nav-link active">Home</a>
+            <a href="#gallery" class="nav-link">Gallery</a>
+            <a href="#about" class="nav-link">About Us</a>
+        </div>
     </nav>
 
     <section class="hero-container">
     <img src="art_images/hero-art-bg.jpeg" alt="Hero Background" class="hero-layer bg-image">
-    
+
     <div class="hero-layer bg-gradient-linear"></div>
     
     <div class="hero-layer bg-vignette"></div>
+    
+    <div class="carousel-glow-anchor"></div>
 
     <div class="hero-content-wrapper">
-    
-        <h1 class="hero-tagline">
-            Where <span class="serif-italic">art history</span> listens 
-            <img src="icon_images/brutalist-spiral.svg" alt="spiral icon" class="inline-icon"><br>
-            an experience <span class="serif-italic">reimagined</span>
-        </h1>
-        
-        <div class="star-divider">
-            <img src="art_images/white-star.png" alt="star icon" class="star-icon">
-            <div class="line"></div>
+        <div class="hero-text-block">
+            <h1 class="hero-tagline">
+                Where <span class="serif-italic">art history</span> listens 
+                <img src="icon_images/brutalist-spiral.svg" alt="spiral icon" class="inline-icon"><br>
+                an experience <span class="serif-italic">reimagined</span>
+            </h1>
+            
+            <div class="star-divider">
+                <img src="art_images/white-star.png" alt="star icon" class="star-icon">
+                <div class="line"></div>
+            </div>
+            
+            <p class="hero-subheadline">
+                Experience a living gallery, ask questions, and let an AI docent guide you through the world's greatest masterpieces.
+            </p>
+            
+            <button class="cta-neo">EXPLORE GALLERY</button>
         </div>
-        
-        <p class="hero-subheadline">
-            Experience a living gallery. Ask questions, share expert critiques, and let an AI docent guide you through the world's greatest masterpieces.
-        </p>
-        
-        
-        <button class="cta-neo">EXPLORE GALLERY</button>
 
+        <div class="desktop-staggered-container desktop-element">
+            <div class="stagger-item top-item" id="stagger-1">
+                <div class="image-wrapper">
+                    <img src="art_images/The_Swing.jpg" alt="The Swing">
+                </div>
+                <div class="stagger-details">
+                    <div class="stagger-line"></div>
+                    <div class="stagger-text">
+                        <p class="title">The Swing</p>
+                        <p class="meta">Fragonard, c. 1767</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stagger-item center-item" id="stagger-2">
+                <div class="stagger-details">
+                    <div class="stagger-text">
+                        <p class="title">The Lady with an Ermine</p>
+                        <p class="meta">Leonardo da Vinci, c. 1489</p>
+                    </div>
+                    <div class="stagger-line"></div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="art_images/The_Lady_with_an_Ermine.jpg" alt="Persistence of Memory">
+                </div>
+            </div>
+
+            <div class="stagger-item bottom-item" id="stagger-3">
+                <div class="image-wrapper">
+                    <img src="art_images/Persistence_of_Memory.jpg" alt="The Storm">
+                </div>
+                <div class="stagger-details">
+                    <div class="stagger-line"></div>
+                    <div class="stagger-text">
+                        <p class="title">Persistence of Memory</p>
+                        <p class="meta">Salvador Dalí, 1931</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 
     <div class="carousel-wrapper">
@@ -61,7 +115,7 @@
             <div class="carousel-item">
                 <img src="art_images/Persistence_of_Memory.jpg" alt="The Persistence of Memory">
                 <div class="carousel-caption">
-                    <div class="title">The Persistence of Memory</div>
+                    <div class="title">Persistence of Memory</div>
                     <div class="artist">Salvador Dalí</div>
                     <div class="year">1931</div>
                 </div>
@@ -79,7 +133,7 @@
             <div class="carousel-item">
                 <img src="art_images/The_Lady_with_an_Ermine.jpg" alt="Lady with an Ermine">
                 <div class="carousel-caption">
-                    <div class="title">Lady with an Ermine</div>
+                    <div class="title">The Lady with an Ermine</div>
                     <div class="artist">Leonardo da Vinci</div>
                     <div class="year">c. 1489</div>
                 </div>
@@ -88,7 +142,7 @@
             <div class="carousel-item">
                 <img src="art_images/Persistence_of_Memory.jpg" alt="The Persistence of Memory">
                 <div class="carousel-caption">
-                    <div class="title">The Persistence of Memory</div>
+                    <div class="title">Persistence of Memory</div>
                     <div class="artist">Salvador Dalí</div>
                     <div class="year">1931</div>
                 </div>
@@ -106,7 +160,7 @@
             <div class="carousel-item">
                 <img src="art_images/The_Lady_with_an_Ermine.jpg" alt="Lady with an Ermine">
                 <div class="carousel-caption">
-                    <div class="title">Lady with an Ermine</div>
+                    <div class="title">THe Lady with an Ermine</div>
                     <div class="artist">Leonardo da Vinci</div>
                     <div class="year">c. 1489</div>
                 </div>
