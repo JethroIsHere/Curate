@@ -26,4 +26,23 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     });
+
+    // Pagination Logic
+    const loadMoreBtn = document.getElementById('loadMoreBtn');
+    const endText = document.getElementById('endText');
+    const hiddenItems = document.querySelectorAll('.hidden-batch');
+
+    if (loadMoreBtn) {
+        loadMoreBtn.addEventListener('click', () => {
+            // 1. Reveal the hidden batch
+            hiddenItems.forEach(item => {
+                item.classList.remove('hidden-batch');
+                // Optional: add a tiny fade-in animation here via CSS class if desired
+            });
+
+            // 2. Hide the button and show the End State
+            loadMoreBtn.style.display = 'none';
+            endText.style.display = 'block';
+        });
+    }
 });
