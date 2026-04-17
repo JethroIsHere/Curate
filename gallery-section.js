@@ -27,20 +27,43 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // Pagination Logic
+    // --- LEFT-TO-RIGHT MASONRY LOGIC ---
+    const grid = document.getElementById('masonryGrid');
+    if (grid) {
+        // Grab all cards in their flat HTML order
+        const cards = Array.from(grid.querySelectorAll('.artwork-card'));
+        
+        // Empty the grid
+        grid.innerHTML = '';
+        
+        // Decide columns: 4 for desktop, 2 for mobile
+        const numCols = window.innerWidth >= 1024 ? 4 : 2;
+        
+        // Create the physical column buckets
+        const columns = Array.from({ length: numCols }, () => {
+            const col = document.createElement('div');
+            col.classList.add('masonry-column');
+            grid.appendChild(col);
+            return col;
+        });
+        
+        // Deal the cards left-to-right, top-to-bottom
+        cards.forEach((card, index) => {
+            columns[index % numCols].appendChild(card);
+        });
+    }
+
+    // --- PAGINATION (LOAD MORE) LOGIC ---
     const loadMoreBtn = document.getElementById('loadMoreBtn');
     const endText = document.getElementById('endText');
-    const hiddenItems = document.querySelectorAll('.hidden-batch');
 
     if (loadMoreBtn) {
         loadMoreBtn.addEventListener('click', () => {
-            // 1. Reveal the hidden batch
-            hiddenItems.forEach(item => {
-                item.classList.remove('hidden-batch');
-                // Optional: add a tiny fade-in animation here via CSS class if desired
-            });
-
-            // 2. Hide the button and show the End State
+            // Un-hide the next batch. Because they are already safely inside 
+            // their correct columns, nothing will shuffle or jump!
+            const hiddenItems = document.querySelectorAll('.hidden-batch');
+            hiddenItems.forEach(item => item.classList.remove('hidden-batch'));
+            
             loadMoreBtn.style.display = 'none';
             endText.style.display = 'block';
         });

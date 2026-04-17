@@ -171,10 +171,10 @@ html, body {
 .gallery-subheadline {
     font-family: var(--font-mono);
     font-weight: 300;
-    font-size: 14px;
+    font-size: 13px;
     color: #ffffff;
     text-align: center;
-    margin: 0 0 20px 0;
+    margin: 0 0 23px 0;
     letter-spacing: -1px;
 }
 
@@ -288,33 +288,38 @@ html, body {
 
 /* --- Masonry Wrapper & Columns --- */
 .masonry-wrapper {
-    display: flex;
-    gap: 15px; /* Space between columns */
-    padding: 30px 20px;
+    display: flex; 
+    flex-direction: row;
+    align-items: flex-start; /* Prevents columns from stretching to match each other's heights */
+    gap: 15px; /* Horizontal space between the JS columns */
+    padding: 30px 15px;
     width: 100%;
-    max-width: 1200px; /* Limits width on ultra-wide screens */
+    max-width: 1400px; 
     margin: 0 auto;
     box-sizing: border-box;
     position: relative;
-    z-index: 10; /* Keeps it above background layers */
+    z-index: 10;
 }
 
+/* --- The Buckets --- */
 .masonry-column {
-    flex: 1; /* Both columns take up exactly 50% of the available space */
+    flex: 1; /* Ensures all columns are perfectly equal width */
     display: flex;
     flex-direction: column;
-    gap: 25px; /* Vertical space between artworks */
+    gap: 20px; /* Vertical space between artworks */
     min-width: 0;
 }
 
-/* --- Artwork Cards & Images --- */
+/* --- Artwork Cards --- */
 .artwork-card {
-    display: flex;
-    flex-direction: column;
+    display: inline-block; /* Crucial for column layout */
     width: 100%;
     min-width: 0;
+    break-inside: avoid; 
+    page-break-inside: avoid; /* Fallback for older browsers */
 }
 
+/* Image and description styles */
 .artwork-img {
     width: 100%;
     border-radius: 30px;
@@ -334,6 +339,7 @@ html, body {
     color: #ffffff;
     margin-top: 8px;
     margin-bottom: 0;
+    letter-spacing: -0.8px;
     
     /* The Truncation Magic */
     white-space: nowrap;
@@ -602,6 +608,30 @@ html, body {
 
     .nav-link:hover::after, .nav-link.active::after {
         transform: scaleX(1); /* Expands to full width */
+    }
+
+    /* Center the carousel items on larger screens */
+    .category-carousel { /* Use your actual carousel wrapper class name */
+        justify-content: center;
+        gap: 25px;
+        padding-left: 0; /* Resets any left padding/margin from mobile */
+    }
+
+    .masonry-wrapper {
+        column-count: 4; 
+        column-gap: 25px; /* Slightly wider gaps on large screens */
+        padding: 40px 30px;
+    }
+
+    .site-footer {
+        /* 80px top/bottom, 10% left/right. 
+        Adjust the 10% to match your navbar's side margins! */
+        padding: 80px 5%; 
+    }
+
+    /* Ensure the top row still spreads fully within its new padded bounds */
+    .footer-top {
+        width: 100%;
     }
 }
 
