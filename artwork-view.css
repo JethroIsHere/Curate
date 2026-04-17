@@ -413,8 +413,86 @@ body {
     letter-spacing: -0.2px;
 }
 
-/* --- Desktop Media Query (Put this at the VERY BOTTOM of your CSS file) --- */
+/* --- Desktop Media Query --- */
 @media (min-width: 1024px) {
+    /* Free the Navigation */
+    .artwork-nav {
+        max-width: 100%; /* Let the buttons sit in the far corners of the screen */
+        padding: 40px 60px; /* Generous museum-like padding */
+    }
+
+    /* Shift the Glow */
+    .ambient-glow {
+        position: fixed;
+        left: 30%; /* Move the glow behind the left column, not the center of the screen */
+        width: 60vw;
+        height: 100vh;
+    }
+
+    /* The CSS Grid Magic */
+    .artwork-details-container {
+        display: grid;
+        grid-template-columns: 55% 40%; /* 55% Left, 40% Right, 5% leftover for gap */
+        column-gap: 5%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 100px 40px 80px 40px;
+        align-items: start; /* CRITICAL: Allows the sticky positioning to work */
+    }
+
+    /* The Sticky Canvas (Left Side) */
+    .artwork-image-wrapper {
+        grid-column: 1 / 2;
+        grid-row: 1 / -1; /* Spans vertically across all rows on the right */
+        position: sticky;
+        top: 100px; /* Locks it in place when you scroll */
+        margin-bottom: 0;
+    }
+
+    /* Allow the image to grow, but never taller than the viewport */
+    .landscape, .portrait {
+        width: 100%;
+        height: auto;
+        max-height: 70vh; 
+        border-radius: 70px; /* Slightly sharper corners on desktop look more premium */
+    }
+
+    /* The Context (Right Side Wrapper) */
+    .artwork-info-wrapper {
+        grid-column: 2 / 3;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start; /* Keeps everything packed at the top */
+        max-width: 100%;
+    }
+
+    /* The Context (Right Side) */
+    .artwork-header,
+    .artwork-metadata,
+    .artwork-description,
+    .docent-cta {
+        grid-column: 2 / 3;
+        max-width: 100%; /* Overrides the mobile constraints */
+        text-align: left; /* Left-align the title for desktop */
+    }
+
+    .artwork-header {
+        margin-bottom: 40px;
+    }
+
+    .artwork-title {
+        font-size: 55px; /* Huge, beautiful serif typography */
+        letter-spacing: -3px;
+    }
+
+    /* Override the mobile centered text inside the CTA */
+    .docent-cta {
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
     .site-footer {
         /* 80px top/bottom, 10% left/right. 
         Adjust the 10% to match your navbar's side margins! */
