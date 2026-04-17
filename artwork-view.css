@@ -1,0 +1,428 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+}
+
+/* --- Global Variables & Body --- */
+:root {
+    --font-mono: 'IBM Plex Mono', monospace;
+    --font-serif: 'Playfair Display', serif;
+}
+
+body {
+    background-color: #000000;
+    margin: 0;
+    padding: 0;
+    color: #ffffff;
+    font-family: var(--font-mono);
+    position: relative;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* --- Global Background & Ambient Glow --- */
+.ambient-glow {
+    position: absolute;
+    top: -55%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(circle, var(--ambient-color) 0%, rgba(0,0,0,0) 70%);
+    z-index: 1;
+    pointer-events: none; /* Let clicks pass through */
+}
+
+/* --- Top Navigation Buttons --- */
+.artwork-nav {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 500px; /* Keeps buttons from flying apart on desktop */
+    padding: 20px 25px;
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+    z-index: 50;
+}
+
+.nav-btn {
+    width: 43px;
+    height: 43px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.25); /* Y:2, Blur:6, Black 25% */
+    -webkit-tap-highlight-color: transparent;
+}
+
+.btn-icon {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+.back-btn {
+    background-color: #ffffff;
+    border: none;
+}
+
+/* The Gradient Border */
+.docent-btn {
+    background: linear-gradient(#ffffff, #ffffff) padding-box,
+                linear-gradient(to bottom, #37A5FF, #88C9FF) border-box;
+    border: 2px solid transparent;
+}
+
+.docent-btn .btn-icon {
+    width: 25px;
+    height: 25px;
+}
+
+/* --- Artwork Image Container --- */
+.artwork-details-container {
+    position: relative;
+    z-index: 10;
+    padding: 100px 20px 40px 20px; /* Clears the fixed nav */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 500px;
+    margin: 0 auto; /* Centers the whole column on desktop */
+}
+
+.artwork-image-wrapper {
+    margin-bottom: 25px;
+}
+
+.artwork-img {
+    border-radius: 30px;
+    border: 0.8px solid #ffffff;
+    object-fit: cover;
+    display: block;
+}
+
+/* Dynamic Cropping Classes */
+.landscape {
+    width: 300px;
+    height: 200px;
+}
+
+.portrait {
+    width: 300px;
+    height: 340px;
+}
+
+/* --- Typography: Title & Date --- */
+.artwork-header {
+    text-align: center;
+    margin-bottom: 35px;
+    width: 100%;
+    max-width: 300px; /* Matches image width */
+}
+
+.artwork-title {
+    font-family: var(--font-serif);
+    font-size: 40px;
+    font-style: italic;
+    font-weight: 400;
+    color: #ffffff;
+    letter-spacing: -2.2px;
+    line-height: 1.1;
+    margin: 0 0 5px 0;
+}
+
+.artwork-date {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    font-style: italic;
+    color: #ffffff;
+    letter-spacing: -1px;
+    margin-top: 15px;
+}
+
+/* --- Typography: Metadata Block --- */
+.artwork-metadata {
+    width: 100%;
+    max-width: 300px; /* Matches image width */
+    display: flex;
+    flex-direction: column;
+    gap: 12px; /* Configurable gap between lines */
+}
+
+.meta-line {
+    font-size: 14px;
+    color: #ffffff;
+    letter-spacing: -1px;
+    margin: 0;
+}
+
+/* --- Description Block --- */
+.artwork-description {
+    width: 100%;
+    max-width: 400px; /* Slightly wider than metadata for reading comfort */
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.description-title {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    font-style: italic;
+    font-weight: 400;
+    color: #ffffff;
+    margin: 0 0 15px 0;
+}
+
+.description-text {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.85); /* Slightly muted for readability */
+    margin: 0 0 20px 0;
+}
+
+.description-sources p {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.5);
+    margin: 0;
+}
+
+.description-sources a {
+    color: #37A5FF;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.description-sources a:hover {
+    color: #88C9FF;
+    text-decoration: underline;
+}
+
+/* --- AI Docent CTA --- */
+.docent-cta {
+    width: 100%;
+    max-width: 400px;
+    margin-top: 40px;
+    padding: 25px;
+    background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.cta-text {
+    font-family: var(--font-serif);
+    font-size: 16px;;
+    font-style: italic;
+    color: #ffffff;
+    line-height: 1.5;
+    margin: 0 0 20px 0;
+}
+
+.chat-trigger {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: -0.8px;
+    color: #000000;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 24px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.chat-trigger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0px 4px 15px rgba(255, 255, 255, 0.2);
+}
+
+/* --- Speech Bubble Logic --- */
+.docent-nav-wrapper {
+    position: relative; /* Anchors the absolute bubble */
+}
+
+.docent-bubble {
+    position: absolute;
+    top: 60px; /* Pushes it just below the 45px button */
+    right: 0;
+    width: 220px;
+    background-color: #1F1F1F;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 12px 16px;
+    box-shadow: 0px 4px 15px rgba(255, 255, 255, 0.2);
+    
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: #ffffff;
+    line-height: 1.5;
+    z-index: 40;
+    
+    /* Default Hidden State */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* The Triangle Pointing Up */
+.docent-bubble::after {
+    content: '';
+    position: absolute;
+    top: -6px; /* Half the size of the border width */
+    right: 15px; /* Aligns with the center of the docent button */
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid #1F1F1F;
+}
+
+/* The Active Toggle Class */
+.show-bubble {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* --- Mobile Footer Container --- */
+.site-footer {
+    width: 100%;
+    background-color: #171717;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 60px 20px;
+    box-sizing: border-box;
+    color: #A0A0A0; /* The requested muted gray */
+    position: relative;
+    z-index: 20; /* Ensures it sits above any absolute background layers */
+}
+
+/* --- Footer Top Row --- */
+.footer-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: -30px;
+    margin-bottom: 20px;
+}
+
+.footer-logo {
+    height: 35px; /* Adjust based on your SVG dimensions */
+    width: auto;
+    opacity: 0.8; /* Slightly muted to match the footer aesthetic */
+}
+
+.back-to-top {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: #A0A0A0;
+    letter-spacing: -1px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Re-apply the underline ONLY to the text part */
+.back-text {
+    text-decoration: underline;
+    text-underline-offset: 2px; /* Makes the underline look more premium */
+}
+
+.back-to-top:hover {
+    color: #ffffff;
+}
+
+.arrow-up {
+    font-size: 16px;
+    font-style: normal;
+}
+
+/* Footer Middle Content --- */
+.footer-middle {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 35px; /* Generous vertical spacing */
+}
+
+.footer-tagline {
+    font-family: var(--font-mono);
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 1.6;
+    color: #A0A0A0;
+    margin: 0 0 40px 0;
+    text-align: left; /* Explicitly ensures the text stays left */
+    width: 100%;
+}
+
+.footer-tagline .serif-italic {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    color: #A0A0A0; /* Highlights the serif words slightly */
+}
+
+.github-link {
+    align-self: center;  
+    display: inline-flex;
+}
+
+.github-icon {
+    width: 40px;
+    height: 40px;
+    opacity: 0.7;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    filter: invert(40%);
+}
+
+.github-icon:hover {
+    opacity: 1;
+    transform: translateY(-3px); /* Small bounce effect on hover */
+}
+
+/* --- Footer Bottom Row --- */
+.footer-bottom {
+    text-align: center;
+    margin-bottom: -30px;
+}
+
+.footer-bottom p {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: #A0A0A0;
+    margin: 0;
+    letter-spacing: -0.2px;
+}
+
+/* --- Desktop Media Query (Put this at the VERY BOTTOM of your CSS file) --- */
+@media (min-width: 1024px) {
+    .site-footer {
+        /* 80px top/bottom, 10% left/right. 
+        Adjust the 10% to match your navbar's side margins! */
+        padding: 80px 5%; 
+    }
+
+    /* Ensure the top row still spreads fully within its new padded bounds */
+    .footer-top {
+        width: 100%;
+    }
+}
