@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+    <title>curate.</title>
+    <link rel="stylesheet" href="gallery-section.css">
+</head>
+<body>
+    <nav class="mobile-navbar main-navbar">
+        <button class="nav-btn mobile-element" aria-label="Open Menu">
+            <img src="icon_images/menu.png" alt="Menu Icon" class="nav-icon">
+        </button>
+
+        <div class="logo-container">
+            <a href="#">
+                <img src="icon_images/curate_logo.svg" alt="Curate Logo" class="nav-logo">
+            </a>
+        </div>
+
+        <button class="nav-btn mobile-element" aria-label="Search Gallery">
+            <img src="icon_images/search.png" alt="Search Icon" class="nav-icon">
+        </button>
+
+        <div class="desktop-search desktop-element">
+            <img src="icon_images/search.png" alt="Search Icon" class="search-icon-small">
+            <input type="text" placeholder="Find an artwork or artist...">
+        </div>
+
+        <div class="desktop-nav desktop-element">
+            <a href="hero-section.html" class="nav-link">Home</a>
+            <a href="#" class="nav-link active">Gallery</a>
+            <a href="#about" class="nav-link">About Us</a>
+        </div>
+    </nav>
+    
+    <section class="gallery-container">
+    <img src="art_images/home-art-bg.jpg" alt="Hero Background" class="gallery-layer bg-image">
+
+    <div class="gallery-layer bg-gradient-linear"></div>
+    
+    <div class="gallery-layer bg-vignette"></div>
+
+    <div class="gallery-top-container">
+            
+            <h2 class="gallery-title">
+                <span class="mono-text">The</span> Gallery
+            </h2>
+            <p class="gallery-subheadline">Explore, Immerse, Ask, Gain Insights.</p>
+            
+            <div class="category-carousel">
+                
+                <div class="category-item">
+                    <div class="category-image-wrapper">
+                        <img src="art_images/The_Swing.jpg" alt="Rococo">
+                    </div>
+                    <span class="category-label">Rococo</span>
+                </div>
+
+                <div class="category-item">
+                    <div class="category-image-wrapper">
+                        <img src="art_images/The_Lady_with_an_Ermine.jpg" alt="Renaissance">
+                    </div>
+                    <span class="category-label">Renaissance</span>
+                </div>
+
+                <div class="category-item">
+                    <div class="category-image-wrapper">
+                        <img src="art_images/Persistence_of_Memory.jpg" alt="Surrealism">
+                    </div>
+                    <span class="category-label">Surrealism</span>
+                </div>
+
+                <div class="category-item">
+                    <div class="category-image-wrapper">
+                        <img src="art_images/The_Gleaners.jpg" alt="Realism">
+                    </div>
+                    <span class="category-label">Realism</span>
+                </div>
+
+                <div class="category-item">
+                    <div class="category-image-wrapper">
+                        <img src="art_images/Liberty_Leading_the_People.jpg" alt="Romanticism">
+                    </div>
+                    <span class="category-label">Romanticism</span>
+                </div>
+
+            </div>
+
+            <div class="gallery-divider">
+                <img src="art_images/white-star.png" alt="Star Icon" class="center-star">
+            </div>
+
+        </div>
+    
+        <div class="masonry-wrapper">
+            
+            <div class="masonry-column">
+                <div class="artwork-card">
+                    <img src="art_images/Persistence_of_Memory.jpg" alt="Persistence of Memory" class="artwork-img h-200">
+                    <p class="artwork-desc">Persistence of Memory, Salvador Dali</p>
+                </div>
+                <div class="artwork-card">
+                    <img src="art_images/Woman_Cleaning_Turnips.jpg" alt="Woman Cleaning Turnips" class="artwork-img h-300">
+                    <p class="artwork-desc">Woman Cleaning Turnips, Jean-Baptiste-Simeon Chardin</p>
+                </div>
+                <div class="artwork-card hidden-batch">
+                    <img src="art_images/The_Creation_of_Adam.jpg" alt="The Creation of Adam" class="artwork-img h-200">
+                    <p class="artwork-desc">The Creation of Adam, Michelangelo</p>
+                </div>
+            </div>
+
+            <div class="masonry-column">
+                <div class="artwork-card">
+                    <img src="art_images/The_Swing.jpg" alt="The Swing" class="artwork-img h-300">
+                    <p class="artwork-desc">The Swing, Jean-Honoré Fragonard</p>
+                </div>
+                <div class="artwork-card">
+                    <img src="art_images/Liberty_Leading_the_People.jpg" alt="Liberty Leading the People" class="artwork-img h-200">
+                    <p class="artwork-desc">Liberty Leading the People, Eugène Delacroix</p>
+                </div>
+                <div class="artwork-card hidden-batch">
+                    <img src="art_images/The_Great_War.jpg" alt="The Great War" class="artwork-img h-300">
+                    <p class="artwork-desc">The Great War, René Magritte</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="gallery-pagination">
+            <button class="load-more-btn" id="loadMoreBtn">Load More</button>
+            <p class="end-exhibition-text" id="endText">✦ End of Current Exhibition ✦</p>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        
+        <div class="footer-top">
+            <div class="footer-logo-container">
+                <img src="icon_images/curate_logo.svg" alt="Curate Logo" class="footer-logo">
+            </div>
+            
+            <a href="#top" class="back-to-top">
+                <span class="arrow-up">↑</span> 
+                <span class="back-text">Back to top</span> 
+            </a>
+        </div>
+
+        <div class="footer-middle">
+            <h3 class="footer-tagline">
+                Where <span class="serif-italic">art history</span> listens, an experience <span class="serif-italic">reimagined</span>.
+            </h3>
+            
+            <a href="https://github.com/JethroIsHere/Curate?fbclid=IwY2xjawRLzUJleHRuA2FlbQIxMABicmlkETEwZUFXNGJxbGMxV01Xd0tyc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHuqEaByeXIztpX-nPNCnAF9ml6RJNi_GQfbYKgXF9CF4WhC87pMloINQufZa_aem_p0_MUt2d3LwkbIGtCGnptQ" target="_blank" rel="noopener noreferrer" class="github-link">
+                <img src="icon_images/github.png" alt="GitHub Repository" class="github-icon">
+            </a>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2026 curate. All Rights Reserved.</p>
+        </div>
+
+    </footer>
+</body>
+</html>
+<script src="gallery-section.js"></script>
