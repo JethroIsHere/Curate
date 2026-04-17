@@ -298,3 +298,131 @@ body {
     visibility: visible;
     transform: translateY(0);
 }
+
+/* --- Mobile Footer Container --- */
+.site-footer {
+    width: 100%;
+    background-color: #171717;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 60px 20px;
+    box-sizing: border-box;
+    color: #A0A0A0; /* The requested muted gray */
+    position: relative;
+    z-index: 20; /* Ensures it sits above any absolute background layers */
+}
+
+/* --- Footer Top Row --- */
+.footer-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: -30px;
+    margin-bottom: 20px;
+}
+
+.footer-logo {
+    height: 35px; /* Adjust based on your SVG dimensions */
+    width: auto;
+    opacity: 0.8; /* Slightly muted to match the footer aesthetic */
+}
+
+.back-to-top {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: #A0A0A0;
+    letter-spacing: -1px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Re-apply the underline ONLY to the text part */
+.back-text {
+    text-decoration: underline;
+    text-underline-offset: 2px; /* Makes the underline look more premium */
+}
+
+.back-to-top:hover {
+    color: #ffffff;
+}
+
+.arrow-up {
+    font-size: 16px;
+    font-style: normal;
+}
+
+/* Footer Middle Content --- */
+.footer-middle {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 35px; /* Generous vertical spacing */
+}
+
+.footer-tagline {
+    font-family: var(--font-mono);
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 1.6;
+    color: #A0A0A0;
+    margin: 0 0 40px 0;
+    text-align: left; /* Explicitly ensures the text stays left */
+    width: 100%;
+}
+
+.footer-tagline .serif-italic {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    color: #A0A0A0; /* Highlights the serif words slightly */
+}
+
+.github-link {
+    align-self: center;  
+    display: inline-flex;
+}
+
+.github-icon {
+    width: 40px;
+    height: 40px;
+    opacity: 0.7;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    filter: invert(40%);
+}
+
+.github-icon:hover {
+    opacity: 1;
+    transform: translateY(-3px); /* Small bounce effect on hover */
+}
+
+/* --- Footer Bottom Row --- */
+.footer-bottom {
+    text-align: center;
+    margin-bottom: -30px;
+}
+
+.footer-bottom p {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: #A0A0A0;
+    margin: 0;
+    letter-spacing: -0.2px;
+}
+
+/* --- Desktop Media Query (Put this at the VERY BOTTOM of your CSS file) --- */
+@media (min-width: 1024px) {
+    .site-footer {
+        /* 80px top/bottom, 10% left/right. 
+        Adjust the 10% to match your navbar's side margins! */
+        padding: 80px 5%; 
+    }
+
+    /* Ensure the top row still spreads fully within its new padded bounds */
+    .footer-top {
+        width: 100%;
+    }
+}
