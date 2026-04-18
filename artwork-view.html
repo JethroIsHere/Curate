@@ -91,6 +91,53 @@
         </div>
     </footer>
     
+    
+    <div class="docent-overlay" id="docentOverlay"></div>
+
+    <aside class="docent-panel" id="docentPanel">
+        
+        <div class="chat-header">
+            <div class="header-info">
+                <img src="icon_images/docent.png" alt="AI Docent" class="header-icon">
+                <h3 class="header-title">AI Docent</h3>
+            </div>
+            <button class="close-chat-btn" id="closeChatBtn" aria-label="Close Chat">✕</button>
+        </div>
+
+        <div class="chat-history" id="chatHistory">
+            <div class="chat-message docent">
+                <div class="bubble">
+                    Hello! I am your AI Docent. Ask me any historical or thematic questions you have about <em>Liberty Leading the People</em>.
+                </div>
+            </div>
+
+            <div class="chat-message user">
+                <div class="bubble">
+                    Who is the man in the top hat on the left?
+                </div>
+            </div>
+
+            <div class="chat-message docent">
+                <div class="bubble">
+                    That figure represents the bourgeoisie (the middle class). Interestingly, many art historians believe it is a self-portrait of the artist, Eugène Delacroix, inserting himself into the revolution!
+                </div>
+            </div>
+
+            <div class="chat-message docent loading-message" id="loadingIndicator" style="display: none;">
+                <div class="bubble typing-indicator">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-input-area">
+            <input type="text" class="chat-input" id="chatInput" placeholder="Ask the Docent...">
+            <button class="send-btn" id="sendBtn" aria-label="Send message">
+                <img src="icon_images/send.png" alt="Send" class="send-icon">
+            </button> 
+        </div>
+
+    </aside>
 </body>
 </html>
 <script src="artwork-view.js"></script>

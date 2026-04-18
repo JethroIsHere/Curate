@@ -68,4 +68,35 @@ document.addEventListener("DOMContentLoaded", () => {
         bubble.addEventListener('click', dismissBubble);
         document.querySelector('.docent-btn').addEventListener('click', dismissBubble);
     }
+
+
+    // --- AI Docent Slide-In Panel Logic ---
+    const topDocentBtn = document.querySelector('.docent-btn');
+    const docentPanel = document.getElementById('docentPanel');
+    const docentOverlay = document.getElementById('docentOverlay');
+    const closeChatBtn = document.getElementById('closeChatBtn');
+
+    // Function to slide the chat open
+    const openChat = () => {
+        if (docentPanel && docentOverlay) {
+            docentPanel.classList.add('active');
+            docentOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Locks the background from scrolling
+        }
+    };
+
+    // Function to slide the chat closed
+    const closeChat = () => {
+        if (docentPanel && docentOverlay) {
+            docentPanel.classList.remove('active');
+            docentOverlay.classList.remove('active');
+            document.body.style.overflow = ''; // Unlocks the background
+        }
+    };
+
+    // Listen for clicks on the top button, close button, or the dark overlay background
+    if (topDocentBtn) topDocentBtn.addEventListener('click', openChat);
+    if (closeChatBtn) closeChatBtn.addEventListener('click', closeChat);
+    if (docentOverlay) docentOverlay.addEventListener('click', closeChat);
+
 });
