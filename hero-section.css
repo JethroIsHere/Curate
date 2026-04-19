@@ -378,11 +378,145 @@ html, body {
     line-height: 1.3;
 }
 
+/* ==========================================================================
+   MOBILE NAVIGATION DRAWER
+   ========================================================================== */
+   
+/* Overlay Background */
+.nav-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    z-index: 9998;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+/* The Sliding Drawer (Slides from the Left) */
+.nav-drawer {
+    position: fixed;
+    top: 0; left: -100%; /* Hidden off-screen to the left */
+    width: 80%;
+    max-width: 320px;
+    height: 100vh;
+    height: 100dvh; /* Mobile browser height fix */
+    background-color: #111111;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.6);
+    transition: left 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Active States (Toggled by JS) */
+.nav-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+.nav-drawer.active {
+    left: 0; /* Slides into view */
+}
+
+/* Drawer Header */
+.drawer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.drawer-logo {
+    height: 30px;
+    width: auto;
+}
+
+.close-drawer-btn {
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.6;
+    transition: opacity 0.2s, transform 0.2s;
+}
+
+.close-drawer-btn:hover {
+    opacity: 1;
+    transform: translateX(-4px); /* Slight nudge left on hover */
+}
+
+/* Navigation Links */
+.drawer-links {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0;
+}
+
+.drawer-link {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 18px 25px;
+    text-decoration: none;
+    color: #ffffff;
+    font-family: var(--font-mono);
+    font-size: 16px;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent; /* Placeholder for active state */
+}
+
+.drawer-icon-wrapper {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.7;
+}
+
+.drawer-link-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: invert(1); /* Turns black icons white */
+    transition: all 0.3s ease;
+}
+
+/* --- The Highlight Color (#9c5d10) --- */
+.drawer-link:hover,
+.drawer-link.active-drawer-link {
+    background-color: rgba(156, 93, 16, 0.1); /* Very subtle bronze background */
+    border-left: 3px solid #9c5d10; /* Bronze left border indicator */
+    color: #9c5d10; /* Bronze text */
+}
+
+.drawer-link:hover .drawer-icon-wrapper,
+.drawer-link.active-drawer-link .drawer-icon-wrapper {
+    opacity: 1;
+}
+
+/* CSS trick to turn a white/black PNG into your exact #9c5d10 color using filters */
+.drawer-link:hover .drawer-link-icon,
+.drawer-link.active-drawer-link .drawer-link-icon {
+    /* This specific filter matrix generates #9c5d10 */
+    filter: invert(41%) sepia(85%) saturate(718%) hue-rotate(352deg) brightness(91%) contrast(93%);
+}
 
 /* --- Desktop Media Query (Put this at the VERY BOTTOM of your CSS file) --- */
 @media (min-width: 1024px) {
+    .nav-drawer, .nav-overlay {
+        display: none !important;
+    }
     
-    /* 1. Layout Reorganization */
+    /* Layout Reorganization */
     .mobile-element {
         display: none; /* Hide hamburger and mobile search */
     }
