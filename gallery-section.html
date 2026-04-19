@@ -11,7 +11,7 @@
 </head>
 <body>
     <nav class="mobile-navbar main-navbar">
-        <button class="nav-btn mobile-element" aria-label="Open Menu">
+        <button class="nav-btn mobile-element" id="openNavBtn" aria-label="Open Menu">
             <img src="icon_images/menu.png" alt="Menu Icon" class="nav-icon">
         </button>
 
@@ -32,7 +32,7 @@
 
         <div class="desktop-nav desktop-element">
             <a href="hero-section.html" class="nav-link">Home</a>
-            <a href="#" class="nav-link active">Gallery</a>
+            <a href="gallery-section.html" class="nav-link active">Gallery</a>
             <a href="about_us-section.html" class="nav-link">About Us</a>
         </div>
     </nav>
@@ -160,8 +160,42 @@
         <div class="footer-bottom">
             <p>© 2026 curate. All Rights Reserved.</p>
         </div>
-
     </footer>
+
+    <div class="nav-overlay" id="navOverlay"></div>
+
+    <aside class="nav-drawer" id="navDrawer">
+        
+        <div class="drawer-header">
+            <img src="icon_images/curate_logo.svg" alt="curate. logo" class="drawer-logo">
+            <button class="close-drawer-btn" id="closeDrawerBtn" aria-label="Close Menu">
+                <img src="icon_images/collapse.png" alt="Collapse" class="collapse-icon">
+            </button>
+        </div>
+        
+        <nav class="drawer-links">
+            <a href="hero-section.html" class="drawer-link">
+                <div class="drawer-icon-wrapper">
+                    <img src="icon_images/home.png" alt="Home" class="drawer-link-icon">
+                </div>
+                <span>Home</span>
+            </a>
+            
+            <a href="#gallery-section.html" class="drawer-link active-drawer-link">
+                <div class="drawer-icon-wrapper">
+                    <img src="icon_images/grid.png" alt="Gallery" class="drawer-link-icon">
+                </div>
+                <span>Gallery</span>
+            </a>
+            
+            <a href="about_us-section.html" class="drawer-link">
+                <div class="drawer-icon-wrapper">
+                    <img src="icon_images/information.png" alt="About" class="drawer-link-icon">
+                </div>
+                <span>About Us</span>
+            </a>
+        </nav>
+    </aside>
 </body>
 </html>
 <script src="gallery-section.js"></script>
