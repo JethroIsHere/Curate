@@ -603,6 +603,7 @@ html, body {
     display: flex;
     align-items: center;
     gap: 20px;
+    width: 100%;
 }
 
 /* Alignment utilities */
@@ -637,6 +638,7 @@ html, body {
     display: flex;
     flex-direction: column;
     gap: 4px; /* Space between name and roles */
+    flex: 1;
 }
 
 .profile-name {
@@ -784,6 +786,122 @@ html, body {
 
     .nav-link:hover::after, .nav-link.active::after {
         transform: scaleX(1); /* Expands to full width */
+    }
+
+    /* --- Top Content (Side-by-Side) --- */
+    .about-top-content {
+        max-width: 1000px; /* Expand the container */
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* 50% Left, 50% Right */
+        gap: 80px; /* Generous breathing room between images and text */
+        align-items: center;
+        padding-top: 70px; /* Extra breathing room below the header */
+        padding-bottom: 5px; /* Extra breathing room below the header */
+    }
+
+    .editorial-composition {
+        min-height: 550px; /* Scale up slightly for desktop */
+    }
+
+    .about-paragraphs {
+        margin-bottom: 150px; /* Remove mobile margin */
+        justify-content: center;
+    }
+
+
+    /* --- Feature Highlights (Horizontal 3-Column) --- */
+    .about-features-section {
+        max-width: 1200px;
+    }
+
+    .features-container {
+        /* The Twist: 'to bottom left' starts top-right and ends bottom-left! */
+        background: linear-gradient(to bottom left, #0F0F0F, #0B0600) padding-box, 
+                    linear-gradient(to bottom left, #818080, #756C60) border-box;
+        
+        display: flex;
+        flex-direction: row; /* Switch from vertical to horizontal */
+        align-items: stretch; /* Forces all columns to be the same height */
+        gap: 10px;
+        padding: 30px 30px;
+    }
+
+    .feature-item {
+        flex: 1; /* Makes all 3 items take exactly equal width */
+    }
+
+    /* Reset the mobile zigzag alignments to uniform left alignment */
+    .align-right { text-align: left; }
+    
+    /* Flip the Icon and Title order back to normal for the middle item */
+    .align-right .feature-header { justify-content: flex-start; }
+    .align-right .feature-header .feature-icon-wrapper { order: 1; }
+    .align-right .feature-header .feature-title { order: 2; }
+
+    /* Transform the horizontal line into a vertical divider */
+    .feature-divider {
+        width: 0.8px;
+        height: auto;
+        margin: 0;
+        background-color: rgba(129, 128, 128, 0.35);
+    }
+
+
+    /* --- Meet the Curators (3 Top, 2 Bottom) --- */
+    .about-curators-section {
+        max-width: 1150px;
+        padding-top: 5px;
+    }
+
+    .curators-title-block {
+        max-width: 400px; /* Slightly wider title block on desktop */
+        margin-bottom: 80px;
+    }
+
+    /* Create the wrapping flex grid */
+    .roster-list {
+        display: flex;
+        flex-direction: row; /* Arrange items in a row */
+        flex-wrap: wrap; /* Allows items to drop to the next line */
+        justify-content: center; /* Centers the 2 items on the bottom row */
+        row-gap: 60px;
+        column-gap: 2%;
+    }
+
+    .roster-item {
+        display: flex;
+        align-items: flex-start;
+        /* Forces exactly 3 items to fit on the top row */
+        width: 31%; 
+        justify-content: flex-start; /* Ensures content groups nicely to the left of its box */
+    }
+
+    /* --- The Zigzag Reset --- */
+    /* This forces the mobile right-aligned items to look like left-aligned items on desktop */
+    .roster-right .profile-frame { 
+        order: 1; /* Forces the image back to the left */
+    }
+    
+    .roster-right .profile-info { 
+        order: 2; /* Forces the text to the right */
+        text-align: left; /* Changes text alignment from right to left */
+    }
+
+    /* Typography */
+    .profile-info {
+        display: flex;
+        flex-direction: column;
+        gap: 4px; 
+        flex: 1; 
+        padding-top: 5px; /* THE FIX: Drops the text down slightly from the top edge */
+    }
+
+    /* Ensure desktop footer spans properly */
+    .site-footer {
+        padding: 80px 5%; 
+    }
+    .footer-top {
+        width: 100%;
     }
     
     .site-footer {
