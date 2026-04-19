@@ -444,8 +444,348 @@ html, body {
     font-weight: 600;
 }
 
+/* ==========================================================================
+   ABOUT US: PART 3 (FEATURE HIGHLIGHTS)
+   ========================================================================== */
+.about-features-section {
+    position: relative;
+    z-index: 5;
+    padding: 20px 20px 60px 20px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.features-container {
+    padding: 35px 25px;
+    border-radius: 20px;
+    /* Gradient Border Trick */
+    background: linear-gradient(#0F0F0F, #0b0700) padding-box, 
+                linear-gradient(to bottom, #818080, #756C60) border-box;
+    border: 1px solid transparent; 
+}
+
+.feature-item {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.align-left { text-align: left; }
+.align-right { text-align: right; }
+
+.feature-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.align-left .feature-header { justify-content: flex-start; }
+.align-right .feature-header { justify-content: flex-end; }
+
+.feature-icon-wrapper {
+    width: 45px;
+    height: 45px;
+    background-color: rgba(77, 77, 77, 0.35); /* #4D4D4D at 35% */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.feature-icon {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    filter: invert(1); /* Turns black PNGs to white */
+}
+
+.feature-title {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    font-style: italic;
+    font-weight: 400;
+    color: #ffffff;
+    margin: 0;
+}
+
+.feature-context {
+    font-family: var(--font-mono);
+    font-size: 16px;
+    color: #ffffff;
+    line-height: 1.5;
+    letter-spacing: -0.8px;
+    margin: 0;
+}
+
+.feature-divider {
+    border: none;
+    height: 0.8px;
+    background-color: rgba(129, 128, 128, 0.35);
+    margin: 30px 0;
+}
+
+/* ==========================================================================
+   ABOUT US: PART 4 (MEET THE CURATORS)
+   ========================================================================== */
+.about-curators-section {
+    position: relative;
+    z-index: 5;
+    padding: 0 20px 80px 20px;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+/* Modifying the Title Block */
+.curators-title-block {
+    position: relative;
+    top: 0;
+    right: auto;
+    width: 70%;
+    max-width: 320px;
+    margin: 0 auto 50px auto; /* Centers the block, adds space below */
+    border-radius: 10px 10px 40px 40px; /* Modified Corners */
+    animation: slowWhiteBlink 6s ease-in-out infinite;
+}
+
+/* --- Slow White Blink / Pulse Animation --- */
+@keyframes slowWhiteBlink {
+    0%, 100% {
+        box-shadow: 0 0 0px rgba(255, 255, 255, 0), inset 0 0 0px rgba(255, 255, 255, 0);
+        border-color: rgba(255, 255, 255, 0.4);
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+    50% {
+        /* Creates a soft outer and inner white glow */
+        box-shadow: 0 0 25px rgba(255, 255, 255, 0.3), inset 0 0 15px rgba(255, 255, 255, 0.1);
+        /* Brightens the border slightly */
+        border-color: rgba(255, 255, 255, 0.9);
+        /* Slightly lightens the glass panel */
+        background-color: rgba(20, 20, 20, 0.6); 
+    }
+}
+
+.text-center { text-align: center; }
+
+.spiral-icon-tl1 {
+    position: absolute;
+    top: -15px; 
+    left: -20px;  /* Anchored to top-left now */
+    z-index: 40;
+}
+
+.spiral-icon-tl2 {
+    position: absolute;
+    bottom: -15px; 
+    right: -10px;  /* Anchored to top-left now */
+    z-index: 40;
+}
+
+.inline-icon1 {
+    width: 40px;
+    height: 40px;
+    animation: spinClockwise 8s linear infinite;
+}
+
+@keyframes spinClockwise {
+    from { transform: rotate(-360deg); }
+    to { transform: rotate(0deg); }
+}
+
+/* Roster Layout */
+.roster-list {
+    display: flex;
+    flex-direction: column;
+    gap: 45px; /* Vertical gap between members */
+}
+
+.roster-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Alignment utilities */
+.roster-left { justify-content: flex-start; }
+.roster-right { justify-content: flex-end; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+/* Profile Image Glow & Frame */
+.profile-frame {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0px 0px 10px rgba(255,255,255,0.3);
+    
+    /* Gradient Border Trick for Circles */
+    border: 3px solid transparent; 
+    overflow: hidden;
+}
+
+.profile-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Typography */
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px; /* Space between name and roles */
+}
+
+.profile-name {
+    font-family: var(--font-mono);
+    font-size: 16px;
+    font-weight: 700; /* Bold */
+    color: #ffffff;
+    letter-spacing: -0.8px;
+    margin: 0 0 5px 0;
+}
+
+.profile-role {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+    margin: 0;
+}
+
+/* --- Individual Border Gradients --- */
+.gradient-kurt {
+    background: linear-gradient(#000, #000) padding-box, 
+                linear-gradient(to bottom, #33D59F, #C6F8E2) border-box;
+}
+
+.gradient-duke {
+    background: linear-gradient(#000, #000) padding-box, 
+                linear-gradient(to bottom, #D4AA14, #F0E5BD) border-box;
+}
+
+.gradient-jethro {
+    background: linear-gradient(#000, #000) padding-box, 
+                linear-gradient(to bottom, #72CDE1, #BAFFFE) border-box;
+}
+
+.gradient-christine {
+    background: linear-gradient(#000, #000) padding-box, 
+                linear-gradient(to bottom, #63A835, #EEFBB5) border-box;
+}
+
+.gradient-jazylle {
+    background: linear-gradient(#000, #000) padding-box, 
+                linear-gradient(to bottom, #D44343, #E2D8B4) border-box;
+}
+
 /* --- Desktop Media Query (Put this at the VERY BOTTOM of your CSS file) --- */
 @media (min-width: 1024px) {
+    
+    /* Layout Reorganization */
+    .mobile-element {
+        display: none; /* Hide hamburger and mobile search */
+    }
+    
+    .desktop-element {
+        display: flex; /* Reveal desktop elements */
+    }
+
+    .main-navbar {
+        padding: 0 50px; /* Wider padding for large screens */
+        justify-content: space-between;
+    }
+
+    /* Release the absolute centering of the logo to let Flexbox take over */
+    .logo-container {
+        position: static;
+        transform: none;
+        flex: 1; /* Takes up 1 fraction of space on the left */
+        justify-content: flex-start;
+    }
+
+    /* Expanded Search Bar (Center) */
+    .desktop-search {
+        background-color: #363636;
+        border-radius: 50px;
+        padding: 8px 16px;
+        width: 100%;
+        max-width: 400px;
+        align-items: center;
+        gap: 12px;
+        flex: 2; /* Takes up 2 fractions of space (keeps it perfectly centered) */
+        margin: 0 20px;
+    }
+
+    .search-icon-small {
+        width: 18px;
+        height: 18px;
+        object-fit: contain;
+        opacity: 0.7; /* Makes it slightly faded so the text pops more */
+        filter: invert(80%);
+    }
+
+    .desktop-search input {
+        background: transparent;
+        border: none;
+        outline: none; /* Removes the ugly blue focus ring */
+        width: 100%;
+        font-family: var(--font-mono);
+        font-size: 14px;
+        color: #ffffff;
+        letter-spacing: -0.3px;
+    }
+
+    .desktop-search input::placeholder {
+        color: rgba(255, 255, 255, 0.5); /* Dimmer placeholder text */
+    }
+
+    /* Navigation Tabs (Right Side) */
+    .desktop-nav {
+        align-items: center;
+        justify-content: flex-end;
+        gap: 40px;
+        flex: 1; /* Takes up 1 fraction of space on the right (balances the logo) */
+    }
+
+    .nav-link {
+        text-decoration: none;
+        font-family: var(--font-mono);
+        font-size: 14px;
+        font-weight: 300;
+        color: #ffffff;
+        position: relative;
+        padding-bottom: 6px; /* Creates the gap below text for the underline */
+        transition: font-weight 0.3s ease;
+        letter-spacing: -0.8;
+    }
+
+    /* Hover & Active State (The Wipe Animation) */
+    .nav-link:hover, .nav-link.active {
+        font-weight: 500;
+    }
+
+    .nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: #ffffff;
+        border-radius: 10px;
+        transform: scaleX(0); /* Starts invisible/shrunk */
+        transform-origin: left; /* Anchors the animation to the left side */
+        transition: transform 0.3s ease-out; /* The smooth wipe speed */
+    }
+
+    .nav-link:hover::after, .nav-link.active::after {
+        transform: scaleX(1); /* Expands to full width */
+    }
+    
     .site-footer {
         /* 80px top/bottom, 10% left/right. 
         Adjust the 10% to match your navbar's side margins! */
