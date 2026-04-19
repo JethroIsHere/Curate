@@ -754,6 +754,13 @@ html, body {
     transition: opacity 0.2s, transform 0.2s;
 }
 
+.collapse-icon {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    filter: invert(1); /* Turns the black PNG white */
+}
+
 .close-drawer-btn:hover {
     opacity: 1;
     transform: translateX(-4px); /* Slight nudge left on hover */
@@ -814,6 +821,10 @@ html, body {
 .drawer-link.active-drawer-link .drawer-link-icon {
     /* This specific filter matrix generates #9c5d10 */
     filter: invert(41%) sepia(85%) saturate(718%) hue-rotate(352deg) brightness(91%) contrast(93%);
+}
+
+.drawer-link, .close-drawer-btn {
+    -webkit-tap-highlight-color: transparent; 
 }
 
 /* --- Desktop Media Query (Put this at the VERY BOTTOM of your CSS file) --- */
