@@ -1,0 +1,798 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+}
+
+/* Base Container */
+.gallery-container {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    background-color: #000000;
+    overflow: hidden; /* Prevents blur spillover */
+}
+
+/* Shared layer properties for perfect stacking */
+.gallery-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Layer 1: BG Image */
+.bg-image {
+    object-fit: cover;
+    object-position: 40% center;
+    opacity: 0.2;
+    filter: blur(5px);
+    transform: scale(1.05);
+    z-index: 1;
+}
+
+/* Layer 2: Linear Gradient Mask */
+.bg-gradient-linear {
+    background: linear-gradient(
+        to bottom, 
+        #FBA53C 0%, 
+        rgba(255, 255, 255, 0) 50%, 
+        #FBA53C 100%
+    );
+    mix-blend-mode: multiply;
+    opacity: 0.7;
+    z-index: 2;
+}
+
+/* Layer 3: Radial Vignette */
+.bg-vignette {
+    background: radial-gradient(
+        circle at center, 
+        rgba(255, 255, 255, 0) 0%, 
+        rgba(129, 128, 128, 0.35) 78%, 
+        rgba(0, 0, 0, 0.7) 100%
+    );
+    mix-blend-mode: multiply;
+    opacity: 1;
+    z-index: 3;
+}
+
+/* --- Mobile Navbar --- */
+.mobile-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 90px;
+    z-index: 50;
+
+    /* Blurry edge/fade effect into the hero section */
+    background: linear-gradient(to bottom, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%);
+    
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    box-sizing: border-box; /* Ensures padding doesn't break the 100% width */
+}
+
+/* Button resets for clean, clickable UI icons */
+.nav-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+}
+
+/* Standardized Icon Dimensions */
+.nav-icon {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    filter: invert(100%); /* Ensures icons are white for visibility on dark background */
+}
+
+/* Absolute Centering for the Logo */
+.logo-container {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-logo {
+    width: 115px;
+    height: auto;
+    display: block;
+}
+
+/* --- Add this right below your current mobile navbar CSS --- */
+.desktop-element {
+    display: none; /* Keeps desktop items completely hidden on phones */
+}
+
+/* Typography Variables */
+:root {
+    --font-mono: 'IBM Plex Mono', monospace;
+    --font-serif: 'Playfair Display', serif;
+    --padding-side: 20px;
+    /* Animation Variable */
+    --speed-slow: 20s;
+}
+
+/* --- Gallery Base Layout --- */
+.gallery-container {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    background-color: #000000;
+    overflow-x: hidden;
+    padding-top: 55px; /* Crucial: Pushes content down below the fixed navbar */
+}
+
+/* --- Gallery Top Container --- */
+.gallery-top-container {
+    position: relative;
+    z-index: 10; /* Ensures this sits above the bg-image and vignettes */
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.65);
+    padding-top: 30px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* --- Typography --- */
+.gallery-title {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 40px;
+    color: #ffffff;
+    text-align: center;
+    margin: 0 0 10px 0;
+}
+
+.gallery-title .mono-text {
+    font-family: var(--font-mono);
+    font-style: normal;
+    font-size: 38px;
+}
+
+.gallery-subheadline {
+    font-family: var(--font-mono);
+    font-weight: 300;
+    font-size: 13px;
+    color: #ffffff;
+    text-align: center;
+    margin: 0 0 23px 0;
+    letter-spacing: -1px;
+}
+
+/* --- Category Carousel (Horizontal Scroll) --- */
+.category-carousel {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    width: 100%;
+    padding: 10px 10px 40px 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    box-sizing: border-box;
+}
+
+/* Hide scrollbars for a clean app-like feel */
+.category-carousel::-webkit-scrollbar { display: none; }
+.category-carousel {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.category-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+    cursor: pointer;
+
+    /* REMOVE MOBILE BLUE HIGHLIGHT */
+    -webkit-tap-highlight-color: transparent;
+}
+
+
+
+/* Image Wrapper & Orange Filter */
+.category-image-wrapper {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 1.5px solid white; 
+    transition: border 0.3s ease;
+}
+
+.category-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+}
+
+/* The Orange Filter Overlay */
+.category-image-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #FBA53C;
+    opacity: 0.5;
+    mix-blend-mode: multiply;
+    transition: opacity 0.3s ease;
+}
+
+/* Active State Logic */
+.category-item.active .category-image-wrapper {
+    border: 2px solid #ffffff;
+    transform: scale(1.05);
+    box-shadow: 0px 0px 10px 2px rgba(255, 255, 255, 0.231);
+}
+
+.category-item.active .category-image-wrapper::after {
+    opacity: 0; /* Removes the orange filter on the active item */
+}
+
+.category-label {
+    font-family: var(--font-mono);
+    font-weight: 400;
+    font-size: 14px;
+    color: #ffffff;
+    letter-spacing: -1px;
+    transition: font-weight 0.3s ease;
+}
+
+.category-item.active .category-label {
+    font-weight: 500;
+}
+
+/* --- The Star Divider --- */
+.gallery-divider {
+    position: relative;
+    width: 100%;
+    height: 1.5px;
+    background-color: #ffffff;
+}
+
+.center-star {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 25px;
+    height: 25px;
+    object-fit: contain;
+}
+
+/* --- Masonry Wrapper & Columns --- */
+.masonry-wrapper {
+    display: flex; 
+    flex-direction: row;
+    align-items: flex-start; /* Prevents columns from stretching to match each other's heights */
+    gap: 15px; /* Horizontal space between the JS columns */
+    padding: 30px 15px;
+    width: 100%;
+    max-width: 1400px; 
+    margin: 0 auto;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 10;
+}
+
+/* --- The Buckets --- */
+.masonry-column {
+    flex: 1; /* Ensures all columns are perfectly equal width */
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Vertical space between artworks */
+    min-width: 0;
+}
+
+/* --- Artwork Cards --- */
+.artwork-card {
+    display: inline-block; /* Crucial for column layout */
+    width: 100%;
+    min-width: 0;
+    break-inside: avoid; 
+    page-break-inside: avoid; /* Fallback for older browsers */
+}
+
+/* Image and description styles */
+
+.artwork-img {
+    width: 100%;
+    height: auto;
+    max-height: 300px;
+    border-radius: 30px;
+    border: 1px solid #ffffff;
+    object-fit: contain;
+    background: #222;
+    display: block;
+    aspect-ratio: 4/3;
+    transition: aspect-ratio 0.2s, max-height 0.2s;
+}
+
+/* Portrait images get a special class for different aspect ratio */
+.artwork-img.portrait {
+    aspect-ratio: 3/4;
+    max-height: 350px;
+    width: auto;
+    height: 100%;
+    margin: 0 auto;
+    display: block;
+}
+
+/* Utility classes for staggered heights (Desktop/Backend logic) */
+.h-200 { height: 200px; }
+.h-300 { height: 300px; }
+
+/* --- Description Truncation --- */
+.artwork-desc {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: #ffffff;
+    margin-top: 8px;
+    margin-bottom: 0;
+    letter-spacing: -0.8px;
+    
+    /* The Truncation Magic */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+/* --- Pagination & Load More --- */
+.gallery-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0 60px 0; /* Preps the space for the upcoming footer */
+    position: relative;
+    z-index: 10;
+}
+
+.load-more-btn {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: #ffffff;
+    background-color: transparent;
+    border: 1px solid #ffffff;
+    border-radius: 50px;
+    padding: 12px 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.load-more-btn:hover {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.end-exhibition-text {
+    font-family: var(--font-mono); /* Matches the elegant vibe */
+    font-style: italic;
+    font-weight: 500;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    display: none; /* Hidden by default */
+    letter-spacing: -1px;
+}
+
+/* Utility to hide upcoming batches */
+.hidden-batch {
+    display: none !important;
+}
+
+/* --- Mobile Footer Container --- */
+.site-footer {
+    width: 100%;
+    background-color: #171717;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 60px 20px;
+    box-sizing: border-box;
+    color: #A0A0A0; /* The requested muted gray */
+    position: relative;
+    z-index: 20; /* Ensures it sits above any absolute background layers */
+}
+
+/* --- Footer Top Row --- */
+.footer-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: -30px;
+    margin-bottom: 20px;
+}
+
+.footer-logo {
+    height: 35px; /* Adjust based on your SVG dimensions */
+    width: auto;
+    opacity: 0.8; /* Slightly muted to match the footer aesthetic */
+}
+
+.back-to-top {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: #A0A0A0;
+    letter-spacing: -1px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Re-apply the underline ONLY to the text part */
+.back-text {
+    text-decoration: underline;
+    text-underline-offset: 2px; /* Makes the underline look more premium */
+}
+
+.back-to-top:hover {
+    color: #ffffff;
+}
+
+.arrow-up {
+    font-size: 16px;
+    font-style: normal;
+}
+
+/* Footer Middle Content --- */
+.footer-middle {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 35px; /* Generous vertical spacing */
+}
+
+.footer-tagline {
+    font-family: var(--font-mono);
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 1.6;
+    color: #A0A0A0;
+    margin: 0 0 40px 0;
+    text-align: left; /* Explicitly ensures the text stays left */
+    width: 100%;
+}
+
+.footer-tagline .serif-italic {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    color: #A0A0A0; /* Highlights the serif words slightly */
+}
+
+.github-link {
+    align-self: center;  
+    display: inline-flex;
+}
+
+.github-icon {
+    width: 40px;
+    height: 40px;
+    opacity: 0.7;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    filter: invert(40%);
+}
+
+.github-icon:hover {
+    opacity: 1;
+    transform: translateY(-3px); /* Small bounce effect on hover */
+}
+
+/* --- Footer Bottom Row --- */
+.footer-bottom {
+    text-align: center;
+    margin-bottom: -30px;
+}
+
+.footer-bottom p {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: #A0A0A0;
+    margin: 0;
+    letter-spacing: -0.2px;
+}
+
+/* ==========================================================================
+   MOBILE NAVIGATION DRAWER
+   ========================================================================== */
+   
+/* Overlay Background */
+.nav-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    z-index: 9998;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+/* The Sliding Drawer (Slides from the Left) */
+.nav-drawer {
+    position: fixed;
+    top: 0; left: -100%; /* Hidden off-screen to the left */
+    width: 80%;
+    max-width: 320px;
+    height: 100vh;
+    height: 100dvh; /* Mobile browser height fix */
+    background-color: #111111;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.6);
+    transition: left 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Active States (Toggled by JS) */
+.nav-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+.nav-drawer.active {
+    left: 0; /* Slides into view */
+}
+
+/* Drawer Header */
+.drawer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.drawer-logo {
+    height: 30px;
+    width: auto;
+}
+
+.close-drawer-btn {
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.6;
+    transition: opacity 0.2s, transform 0.2s;
+}
+
+.collapse-icon {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    filter: invert(1); /* Turns the black PNG white */
+}
+
+.close-drawer-btn:hover {
+    opacity: 1;
+    transform: translateX(-4px); /* Slight nudge left on hover */
+}
+
+/* Navigation Links */
+.drawer-links {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0;
+}
+
+.drawer-link {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 18px 25px;
+    text-decoration: none;
+    color: #ffffff;
+    font-family: var(--font-mono);
+    font-size: 16px;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent; /* Placeholder for active state */
+}
+
+.drawer-icon-wrapper {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.7;
+}
+
+.drawer-link-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: invert(1); /* Turns black icons white */
+    transition: all 0.3s ease;
+}
+
+/* --- The Highlight Color (#9c5d10) --- */
+.drawer-link:hover,
+.drawer-link.active-drawer-link {
+    background-color: rgba(156, 93, 16, 0.1); /* Very subtle bronze background */
+    border-left: 3px solid #9c5d10; /* Bronze left border indicator */
+    color: #9c5d10; /* Bronze text */
+}
+
+.drawer-link:hover .drawer-icon-wrapper,
+.drawer-link.active-drawer-link .drawer-icon-wrapper {
+    opacity: 1;
+}
+
+/* CSS trick to turn a white/black PNG into your exact #9c5d10 color using filters */
+.drawer-link:hover .drawer-link-icon,
+.drawer-link.active-drawer-link .drawer-link-icon {
+    /* This specific filter matrix generates #9c5d10 */
+    filter: invert(41%) sepia(85%) saturate(718%) hue-rotate(352deg) brightness(91%) contrast(93%);
+}
+
+.drawer-link, .close-drawer-btn {
+    -webkit-tap-highlight-color: transparent; 
+}
+
+/* --- Desktop Media Query (Put this at the VERY BOTTOM of your CSS file) --- */
+@media (min-width: 1024px) {
+    .nav-drawer, .nav-overlay {
+        display: none !important;
+    }
+    
+    /* Layout Reorganization */
+    .mobile-element {
+        display: none; /* Hide hamburger and mobile search */
+    }
+    
+    .desktop-element {
+        display: flex; /* Reveal desktop elements */
+    }
+
+    .main-navbar {
+        padding: 0 50px; /* Wider padding for large screens */
+        justify-content: space-between;
+    }
+
+    /* Release the absolute centering of the logo to let Flexbox take over */
+    .logo-container {
+        position: static;
+        transform: none;
+        flex: 1; /* Takes up 1 fraction of space on the left */
+        justify-content: flex-start;
+    }
+
+    /* Expanded Search Bar (Center) */
+    .desktop-search {
+        background-color: #363636;
+        border-radius: 50px;
+        padding: 8px 16px;
+        width: 100%;
+        max-width: 400px;
+        align-items: center;
+        gap: 12px;
+        flex: 2; /* Takes up 2 fractions of space (keeps it perfectly centered) */
+        margin: 0 20px;
+    }
+
+    .search-icon-small {
+        width: 18px;
+        height: 18px;
+        object-fit: contain;
+        opacity: 0.7; /* Makes it slightly faded so the text pops more */
+        filter: invert(80%);
+    }
+
+    .desktop-search input {
+        background: transparent;
+        border: none;
+        outline: none; /* Removes the ugly blue focus ring */
+        width: 100%;
+        font-family: var(--font-mono);
+        font-size: 14px;
+        color: #ffffff;
+        letter-spacing: -0.3px;
+    }
+
+    .desktop-search input::placeholder {
+        color: rgba(255, 255, 255, 0.5); /* Dimmer placeholder text */
+    }
+
+    /* Navigation Tabs (Right Side) */
+    .desktop-nav {
+        align-items: center;
+        justify-content: flex-end;
+        gap: 40px;
+        flex: 1; /* Takes up 1 fraction of space on the right (balances the logo) */
+    }
+
+    .nav-link {
+        text-decoration: none;
+        font-family: var(--font-mono);
+        font-size: 14px;
+        font-weight: 300;
+        color: #ffffff;
+        position: relative;
+        padding-bottom: 6px; /* Creates the gap below text for the underline */
+        transition: font-weight 0.3s ease;
+        letter-spacing: -0.8;
+    }
+
+    /* Hover & Active State (The Wipe Animation) */
+    .nav-link:hover, .nav-link.active {
+        font-weight: 500;
+    }
+
+    .nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: #ffffff;
+        border-radius: 10px;
+        transform: scaleX(0); /* Starts invisible/shrunk */
+        transform-origin: left; /* Anchors the animation to the left side */
+        transition: transform 0.3s ease-out; /* The smooth wipe speed */
+    }
+
+    .nav-link:hover::after, .nav-link.active::after {
+        transform: scaleX(1); /* Expands to full width */
+    }
+
+    /* Center the carousel items on larger screens */
+    .category-carousel { /* Use your actual carousel wrapper class name */
+        justify-content: center;
+        gap: 25px;
+        padding-left: 0; /* Resets any left padding/margin from mobile */
+    }
+
+    .masonry-wrapper {
+        column-count: 4; 
+        column-gap: 25px; /* Slightly wider gaps on large screens */
+        padding: 40px 30px;
+    }
+
+    .site-footer {
+        /* 80px top/bottom, 10% left/right. 
+        Adjust the 10% to match your navbar's side margins! */
+        padding: 80px 5%; 
+    }
+
+    /* Ensure the top row still spreads fully within its new padded bounds */
+    .footer-top {
+        width: 100%;
+    }
+}
+

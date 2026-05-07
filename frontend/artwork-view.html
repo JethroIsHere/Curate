@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+    <title>curate.</title>
+    <link rel="stylesheet" href="artwork-view.css">
+</head>
+<body>
+    <div class="ambient-glow"></div>
+
+    <nav class="artwork-nav">
+        <button class="nav-btn back-btn" aria-label="Go Back" id="backToGalleryBtn">
+            <img src="assets/icon_images/back.png" alt="Back" class="btn-icon">
+        </button>
+        
+        <div class="docent-nav-wrapper">
+            <button class="nav-btn docent-btn" aria-label="Ask AI Docent">
+                <img src="assets/icon_images/docent.png" alt="AI Docent" class="btn-icon">
+            </button>
+            
+            <div class="docent-bubble" id="docentBubble">
+                Any questions about the artwork? Feel free to ask our AI Docent...
+            </div>
+        </div>
+    </nav>
+
+    <main class="artwork-details-container">
+        
+        <div class="artwork-image-wrapper">
+            <img src="" alt="Artwork" class="artwork-img">
+        </div>
+
+        <div class="artwork-info-wrapper">
+
+            <div class="artwork-header">
+                <h1 class="artwork-title">Loading title...</h1>
+                <p class="artwork-date">Loading date...</p>
+            </div>
+
+            <div class="artwork-metadata">
+                <p class="meta-line">Artist: Loading...</p>
+                <p class="meta-line">Medium: <span class="artwork-medium">Loading...</span></p>
+                <p class="meta-line">Movement: <span class="artwork-movement">Loading...</span></p>
+            </div>
+
+            <div class="artwork-description">
+                <h2 class="description-title">Overview</h2>
+                <p class="description-text">Loading description...</p>
+                <div class="description-sources">
+                    <p>Sources: <span class="description-sources-list">Loading...</span></p>
+                </div>
+            </div>
+
+            <div class="docent-cta">
+                <p class="cta-text">“There is a profound mix of brutal realism and classical myth hidden in this crowd. Shall we examine the figures?”</p>
+                <button class="chat-trigger" id="docentCtaBtn">Talk to the Docent</button>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-top">
+            <div class="footer-logo-container">
+                <img src="assets/icon_images/curate_logo.svg" alt="Curate Logo" class="footer-logo">
+            </div>
+            
+            <a href="#top" class="back-to-top">
+                <span class="arrow-up">↑</span> 
+                <span class="back-text">Back to top</span> 
+            </a>
+        </div>
+
+        <div class="footer-middle">
+            <h3 class="footer-tagline">
+                Where <span class="serif-italic">art history</span> listens, an experience <span class="serif-italic">reimagined</span>.
+            </h3>
+            
+            <a href="https://github.com/JethroIsHere/Curate?fbclid=IwY2xjawRLzUJleHRuA2FlbQIxMABicmlkETEwZUFXNGJxbGMxV01Xd0tyc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHuqEaByeXIztpX-nPNCnAF9ml6RJNi_GQfbYKgXF9CF4WhC87pMloINQufZa_aem_p0_MUt2d3LwkbIGtCGnptQ" target="_blank" rel="noopener noreferrer" class="github-link">
+                <img src="assets/icon_images/github.png" alt="GitHub Repository" class="github-icon">
+            </a>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2026 curate. All Rights Reserved.</p>
+        </div>
+    </footer>
+    
+    
+    <div class="docent-overlay" id="docentOverlay"></div>
+
+    <aside class="docent-panel" id="docentPanel">
+        
+        <div class="chat-header">
+            <div class="header-info">
+                <img src="assets/icon_images/docent.png" alt="AI Docent" class="header-icon">
+                <h3 class="header-title">AI Docent</h3>
+            </div>
+            <button class="close-chat-btn" id="closeChatBtn" aria-label="Close Chat">✕</button>
+        </div>
+
+        <div class="chat-history" id="chatHistory">
+            <div class="chat-message docent">
+                <div class="bubble">
+                    Hello! I am your AI Docent. Ask me any historical or thematic questions you have about <em>Liberty Leading the People</em>.
+                </div>
+            </div>
+
+            <div class="chat-message docent loading-message" id="loadingIndicator" style="display: none;">
+                <div class="bubble typing-indicator">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-input-area">
+            <input type="text" class="chat-input" id="chatInput" placeholder="Ask the Docent...">
+            <button class="send-btn" id="sendBtn" aria-label="Send message">
+                <img src="assets/icon_images/send.png" alt="Send" class="send-icon">
+            </button> 
+        </div>
+
+    </aside>
+    <script src="artwork-view.js"></script>
+</body>
+</html>

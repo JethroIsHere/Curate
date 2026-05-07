@@ -1,0 +1,257 @@
+document.addEventListener("DOMContentLoaded", () => {
+    // Back button returns to gallery
+    const backBtn = document.getElementById('backToGalleryBtn');
+    if (backBtn) {
+        backBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            // Use history.back() if available, otherwise fallback
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = 'gallery-section.html';
+            }
+        });
+    }
+
+    const artworkImg = document.querySelector('.artwork-img');
+    const rootStyles = document.documentElement;
+    const titleEl = document.querySelector('.artwork-title');
+    const dateEl = document.querySelector('.artwork-date');
+    const metaLines = document.querySelectorAll('.meta-line');
+    const descText = document.querySelector('.description-text');
+    const mediumEl = document.querySelector('.artwork-medium');
+    const movementEl = document.querySelector('.artwork-movement');
+    const sourcesEl = document.querySelector('.description-sources-list');
+
+    // Get ?image= query parameter
+    function getQueryParam(name) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name);
+    }
+
+    // Set image src from query param
+    const imageFilename = getQueryParam('image');
+    if (artworkImg && imageFilename) {
+        artworkImg.src = `assets/art_images/${imageFilename}`;
+        artworkImg.alt = imageFilename.replace(/_/g, ' ').replace(/\.[^.]+$/, '');
+        artworkImg.onload = function() {
+            if (artworkImg.naturalHeight > artworkImg.naturalWidth) {
+                artworkImg.classList.add('portrait');
+            }
+            try {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = 1;
+                canvas.height = 1;
+                ctx.drawImage(artworkImg, 0, 0, 1, 1);
+                const rgb = ctx.getImageData(0, 0, 1, 1).data;
+                // --- The Contrast Booster ---
+                const boost = 1.5;
+                const r = Math.min(255, Math.floor(rgb[0] * boost));
+                const g = Math.min(255, Math.floor(rgb[1] * boost));
+                const b = Math.min(255, Math.floor(rgb[2] * boost));
+                const glowColor = `rgba(${r}, ${g}, ${b}, 0.6)`;
+                rootStyles.style.setProperty('--ambient-color', glowColor);
+            } catch (error) {
+                console.warn("Canvas pixel extraction blocked (likely running via file://). Ambient glow skipped to prevent crash.");
+            }
+            // Sizing is fully handled by modern CSS.
+        };
+    }
+
+
+    async function fetchAndDisplayMetadata() {
+        if (!artworkImg || !imageFilename) return;
+        try {
+            const res = await fetch(`http://127.0.0.1:5000/artwork_metadata?image_filename=${encodeURIComponent(imageFilename)}`);
+            if (!res.ok) throw new Error('Not found');
+            const data = await res.json();
+            // Update title, date, author, medium, movement, description, sources
+            if (titleEl && data.title) titleEl.textContent = data.title;
+            const initialGreeting = document.querySelector('.chat-history .chat-message.docent .bubble');
+            if (initialGreeting && data.title) {
+                initialGreeting.innerHTML = `Hello! I am your AI Docent. Ask me any historical or thematic questions you have about <em>${data.title}</em>.`;
+            }
+            if (dateEl && data.date) dateEl.textContent = data.date;
+            if (metaLines && data.author) metaLines[0].textContent = `Artist: ${data.author}`;
+            if (mediumEl && data.medium) mediumEl.textContent = data.medium;
+            if (movementEl && data.era) movementEl.textContent = data.era;
+            // The AI docent should read the painting's `context` field (preferred),
+            // so show that content in the page and send it to the backend for RAG.
+            // Show the user-facing description from `overview` (fall back to description/context)
+            if (descText) descText.textContent = data.overview || data.description || data.context || 'Description unavailable.';
+            // Keep the painting `context` explicitly available for the AI docent (RAG source)
+            window.__artworkContext = data.context || data.overview || data.description || '';
+            if (sourcesEl && data.sources) sourcesEl.textContent = data.sources;
+            // Also update document title for better UX
+            if (data.title) document.title = `${data.title} | curate.`;
+        } catch (e) {
+            if (descText) descText.textContent = "Artwork metadata unavailable.";
+        }
+    }
+    fetchAndDisplayMetadata();
+
+    // --- AI Docent Click-to-Top Interaction ---
+    const ctaBtn = document.getElementById('docentCtaBtn');
+    const bubble = document.getElementById('docentBubble');
+
+    if (ctaBtn && bubble) {
+        ctaBtn.addEventListener('click', () => {
+            // Scroll smoothly to the very top
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+
+            // Wait 800ms for the smooth scroll animation to finish
+            setTimeout(() => {
+                // Pop the bubble
+                bubble.classList.add('show-bubble');
+
+                // Set the 5-second auto-hide timer
+                const hideTimer = setTimeout(() => {
+                    bubble.classList.remove('show-bubble');
+                }, 5000);
+
+                // Create the manual scroll-to-hide function
+                const hideOnUserScroll = () => {
+                    bubble.classList.remove('show-bubble');
+                    clearTimeout(hideTimer); // Cancel the 5-second timer if they scroll early
+                    window.removeEventListener('scroll', hideOnUserScroll); // Clean up the listener
+                };
+
+                // Wait another tiny fraction of a second before listening for scrolls
+                // to ensure the browser is completely done with the auto-scroll
+                setTimeout(() => {
+                    window.addEventListener('scroll', hideOnUserScroll, { once: true });
+                }, 100);
+
+            }, 600); 
+        });
+
+        // Still let them dismiss it by clicking the bubble or top button directly
+        const dismissBubble = () => bubble.classList.remove('show-bubble');
+        bubble.addEventListener('click', dismissBubble);
+        document.querySelector('.docent-btn').addEventListener('click', dismissBubble);
+    }
+
+
+    // --- AI Docent Slide-In Panel Logic ---
+    const topDocentBtn = document.querySelector('.docent-btn');
+    const docentPanel = document.getElementById('docentPanel');
+    const docentOverlay = document.getElementById('docentOverlay');
+    const closeChatBtn = document.getElementById('closeChatBtn');
+
+    // Function to slide the chat open
+    const openChat = () => {
+        if (docentPanel && docentOverlay) {
+            docentPanel.classList.add('active');
+            docentOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Locks the background from scrolling
+        }
+    };
+
+    // Function to slide the chat closed
+    const closeChat = () => {
+        if (docentPanel && docentOverlay) {
+            docentPanel.classList.remove('active');
+            docentOverlay.classList.remove('active');
+            document.body.style.overflow = ''; // Unlocks the background
+        }
+    };
+
+    // Listen for clicks on the top button, CTA button, close button, or the dark overlay background
+    if (topDocentBtn) topDocentBtn.addEventListener('click', openChat);
+    if (ctaBtn) ctaBtn.addEventListener('click', openChat);
+    if (closeChatBtn) closeChatBtn.addEventListener('click', closeChat);
+    if (docentOverlay) docentOverlay.addEventListener('click', closeChat);
+
+    // --- Chatbot Data Fetching Logic ---
+    const chatInput = document.getElementById('chatInput');
+    const sendBtn = document.getElementById('sendBtn');
+    const chatHistory = document.getElementById('chatHistory');
+    const loadingIndicator = document.getElementById('loadingIndicator');
+    
+    // We will extract the description dynamically from the page to use as RAG context!
+    const contextParagraph = document.querySelector('.description-text');
+
+    const appendMessage = (text, sender) => {
+        const msgDiv = document.createElement('div');
+        msgDiv.classList.add('chat-message', sender);
+        
+        const bubble = document.createElement('div');
+        bubble.classList.add('bubble');
+        bubble.innerHTML = text; // allow basic HTML, or use innerText for strict safety
+        
+        msgDiv.appendChild(bubble);
+        
+        // Insert right before the loading indicator
+        chatHistory.insertBefore(msgDiv, loadingIndicator);
+        
+        // Auto-scroll to bottom
+        chatHistory.scrollTop = chatHistory.scrollHeight;
+    };
+
+    const sendMessage = async () => {
+        const text = chatInput.value.trim();
+        if (!text) return;
+
+        // 1. Show user message
+        appendMessage(text, 'user');
+        chatInput.value = '';
+        
+        // 2. Show loading indicator
+        loadingIndicator.style.display = 'flex';
+        chatHistory.scrollTop = chatHistory.scrollHeight;
+
+        try {
+            // 3. Send to local Flask backend
+                const outgoingPayload = {
+                    question: text,
+                    // Prefer the explicit artwork context; fall back to the visible description text.
+                    artwork_context: window.__artworkContext || (contextParagraph ? contextParagraph.innerText : ""),
+                    // Always include the image filename so the backend can fall back to DB context
+                    image_filename: imageFilename
+                };
+
+                // Debug: show exactly what the frontend is sending to the docent
+                console.debug("/chat payload:\n", outgoingPayload);
+
+                const response = await fetch("http://127.0.0.1:5000/chat", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(outgoingPayload)
+                });
+
+            const data = await response.json();
+            
+            // 4. Hide loading indicator
+            loadingIndicator.style.display = 'none';
+
+            // 5. Show docent response
+            if (data.answer) {
+                appendMessage(data.answer, 'docent');
+            } else if (data.error) {
+                appendMessage("<i>Docent Error: " + data.error + "</i>", 'docent');
+            }
+
+        } catch (error) {
+            console.error("Chat Error:", error);
+            loadingIndicator.style.display = 'none';
+            appendMessage("<i>I'm sorry, I cannot reach the server right now. Is the Flask API running?</i>", 'docent');
+        }
+    };
+
+    if (sendBtn) {
+        sendBtn.addEventListener('click', sendMessage);
+    }
+
+    if (chatInput) {
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    }
+
+});
