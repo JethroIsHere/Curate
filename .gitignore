@@ -1,0 +1,56 @@
+# Environments
+venv/
+.venv/
+env/
+ENV/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyd
+.pytest_cache/
+
+# General ML / Data Science
+*.hdf5
+*.h5
+*.npy
+*.npz
+*.pkl
+*.pb
+*.tflite
+*.pt
+*.pth
+*.safetensors
+*.bin
+
+# Hugging Face cache
+.huggingface/
+.hf/
+
+# Fine-tuned model checkpoints (too large for Git, ~800MB each)
+flan_t5_base_docent_*/
+backend/flan_t5_base_docent_*/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.sublime-project
+
+# Flask / Web
+instance/
+.webassets-cache
+
+# Logs
+*.log
