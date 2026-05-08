@@ -22,7 +22,7 @@ class QAReader:
         if model_path is None:
             model_path = os.environ.get(
                 "DOCENT_MODEL_PATH",
-                "flan_t5_base_docent_updated_clean_final",
+                "./docent-flan-t5-finetuned-tweaked1",
             )
 
         # Resolve model path
@@ -126,10 +126,10 @@ class QAReader:
                 outputs = self.model.generate(
                     **inputs,
                     max_length=max_length,
-                    num_beams=4,
+                    num_beams=6,           # UPDATED: Use your winning beam count
                     no_repeat_ngram_size=2,
                     repetition_penalty=1.2,
-                    length_penalty=0.6,
+                    length_penalty=0.9,    # UPDATED: Use your winning penalty
                     early_stopping=True,
                     do_sample=False,
                 )
