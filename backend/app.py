@@ -480,7 +480,7 @@ def chat():
 
 if __name__ == '__main__':
     from waitress import serve
-    print("🚀 Starting server with Waitress on http://0.0.0.0:5000 ...")
+    print("Starting server with Waitress on http://0.0.0.0:5000 ...")
     # Waitress does not use reloaders or extra watcher processes. 
     # It just runs your app.
     serve(app, host='0.0.0.0', port=5000)

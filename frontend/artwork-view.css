@@ -104,29 +104,19 @@ body {
     display: inline-flex;  /* This naturally hugs the content widths */
     justify-content: center;
     align-items: center;
-    border: none;
-    border-radius: 30px;
-    overflow: hidden;
     box-sizing: border-box;
 }
 
 .artwork-img {
-    border: none;
-    border-radius: inherit;
-    object-fit: contain;
+    border: 1px solid #ffffff; /* The border now hugs the image directly */
+    border-radius: 30px; /* The curve is on the image directly */
     display: block;
     width: auto;
     height: auto;
     max-width: 100%;
-    /* Use a safe viewport height maximum, ensuring the following text remains firmly in view and never overlaps */
     max-height: 60vh;
     box-sizing: border-box;
 }
-
-/* Dynamic Cropping Classes */
-/* Orientation helper classes — size is controlled by container and media queries */
-.landscape { }
-.portrait { }
 
 /* --- Typography: Title & Date --- */
 .artwork-header {
@@ -641,9 +631,13 @@ body {
     /* Shift the Glow */
     .ambient-glow {
         position: fixed;
-        left: 30%; /* Move the glow behind the left column, not the center of the screen */
-        width: 60vw;
-        height: 100vh;
+        left: 30%; 
+        top: -90%; /* Pulls the glow upward to compensate for the taller height */
+        width: 120vw; /* Stretches the container wide horizontally */
+        height: 170vh; /* Gives the gradient plenty of room to fade out without clipping */
+        
+        /* Overrides the base circle gradient with an ellipse that fades out completely at 60% */
+        background: radial-gradient(ellipse at center, var(--ambient-color) 0%, rgba(0,0,0,0) 55%);
     }
 
     /* The CSS Grid Magic */
@@ -657,24 +651,33 @@ body {
         align-items: start; /* CRITICAL: Allows the sticky positioning to work */
     }
 
-    /* The Sticky Canvas (Left Side) */
-    .artwork-image-wrapper {
-        grid-column: 1 / 2;
-        grid-row: 1 / -1; /* Spans vertically across all rows on the right */
-        position: sticky;
-        top: 100px; /* Locks it in place when you scroll */
-        margin-bottom: 0;
+    /* --- Portrait Layout Override --- */
+    body.portrait-layout .artwork-details-container {
+        /* Shrinks the image column to 45%, expands the text column to 50% */
+        /* The 5% gap remains, keeping the total at 100% and preserving your outer margins! */
+        grid-template-columns: 45% 50%; 
     }
 
-    /* Allow the image wrapper to grow, but never taller than the viewport */
-    .landscape, .portrait {
-        width: 100%;
-        height: auto;
-        max-height: 70vh; 
-    }
-    /* Larger corner radius on desktop for the wrapper */
+    /* The Sticky Canvas (Left Side) */
     .artwork-image-wrapper {
-        border-radius: 70px;
+        margin-bottom: 25px;
+        display: inline-flex;  
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+    }
+    
+    /* The Image (Default Landscape Settings) */
+    .artwork-img {
+        border-radius: 50px; /* Adjust this if you want sharper or rounder corners */
+        max-width: 100%; /* Spreads nicely across the left column */
+        max-height: 65vh; /* Prevents extremely wide landscapes from getting too tall */
+    }
+
+    /* The Image (Portrait Tweaks) */
+    .artwork-img.portrait {
+        max-width: 90%; /* Keeps it from feeling overly massive */
+        max-height: 80vh; /* Allows portraits to stretch beautifully down the screen */
     }
 
     /* The Context (Right Side Wrapper) */

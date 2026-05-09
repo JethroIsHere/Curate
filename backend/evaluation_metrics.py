@@ -74,7 +74,7 @@ def run_evaluation():
         avg_sem_score = sum(sem_scores) / len(sem_scores)
 
         print("\n" + "="*30)
-        print("🏆 DATASET EVALUATION RESULTS 🏆")
+        print("DATASET EVALUATION RESULTS")
         print("="*30)
         print(f"Total Rows Evaluated : {len(df)}")
         print(f"Exact Match (EM)     : {results_em['exact_match']:.4f}")

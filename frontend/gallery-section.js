@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const grid = document.getElementById('masonryGrid');
             if (!grid) return;
             try {
-                const res = await fetch('http://127.0.0.1:5000/artworks');
+                const res = await fetch('http://192.168.86.66:5000/artworks');
                 const artworks = await res.json();
                 let filteredEra = null;
                 if (window.__galleryEraFilter) filteredEra = window.__galleryEraFilter;
@@ -145,31 +145,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // --- LEFT-TO-RIGHT MASONRY LOGIC ---
-    const grid = document.getElementById('masonryGrid');
-    if (grid) {
-        // Grab all cards in their flat HTML order
-        const cards = Array.from(grid.querySelectorAll('.artwork-card'));
-        
-        // Empty the grid
-        grid.innerHTML = '';
-        
-        // Decide columns: 4 for desktop, 2 for mobile
-        const numCols = window.innerWidth >= 1024 ? 4 : 2;
-        
-        // Create the physical column buckets
-        const columns = Array.from({ length: numCols }, () => {
-            const col = document.createElement('div');
-            col.classList.add('masonry-column');
-            grid.appendChild(col);
-            return col;
-        });
-        
-        // Deal the cards left-to-right, top-to-bottom
-        cards.forEach((card, index) => {
-            columns[index % numCols].appendChild(card);
-        });
-    }
 
     // --- PAGINATION (LOAD MORE) LOGIC ---
     const loadMoreBtn = document.getElementById('loadMoreBtn');
