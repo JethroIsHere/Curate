@@ -45,11 +45,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // 2. Manual Ambient Colors
             const customColors = {
-                "The_Swing.jpg": "rgba(255, 177, 169, 0.6)",            // Deep forest green
-                "The_Meeting.jpg": "rgba(85, 75, 55, 0.6)",          // Warm earthy tone
-                "The_Declaration_of_Love.jpg": "rgba(35, 45, 65, 0.6)", // Deep navy blue
-                "The_Creation_of_Adam.jpg": "rgba(70, 90, 110, 0.6)" // Soft muted blue
-                // Just keep adding your filenames and desired colors here!
+                "The_Swing.jpg": "#174337",            
+                "The_Declaration_of_Love.jpg": "#886A66",          
+                "The_Meeting.jpg": "#50532C", 
+                "Mona_Lisa.jpg": "#6A3A16",
+                "The_Lady_with_an_Ermine.jpg": "#252A45",
+                "The_Creation_of_Adam.jpg": "#826243",
+                "The_Burning_Giraffe.jpg": "#95494F",
+                "Persistence_of_Memory.jpg": "#755C30",
+                "The_Great_War.jpg": "#684774",
+                "The_Gleaners.jpg": "#6A4F2A",
+                "The_Stone_Breakers.jpg": "#6B462F",
+                "Woman_Cleaning_Turnips.jpg": "#64232C",
+                "The_Raft_of_the_Medusa.jpg": "#5B4C2D",
+                "Liberty_Leading_the_People.jpg": "#424C66"                
             };
             
             // Fallback color if you forget to add a painting to the list
@@ -64,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
     async function fetchAndDisplayMetadata() {
         if (!artworkImg || !imageFilename) return;
         try {
-            const res = await fetch(`http://192.168.86.66:5000/artwork_metadata?image_filename=${encodeURIComponent(imageFilename)}`);
+            const res = await fetch(`http://192.168.5.106:5000/artwork_metadata?image_filename=${encodeURIComponent(imageFilename)}`);
             if (!res.ok) throw new Error('Not found');
             const data = await res.json();
             // Update title, date, author, medium, movement, description, sources
@@ -218,7 +227,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 // Debug: show exactly what the frontend is sending to the docent
                 console.debug("/chat payload:\n", outgoingPayload);
 
-                const response = await fetch("http://192.168.86.66:5000/chat", {
+                const response = await fetch("http://192.168.5.106:5000/chat", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(outgoingPayload)
