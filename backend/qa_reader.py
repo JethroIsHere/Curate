@@ -33,10 +33,10 @@ class QAReader:
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
         
         print(f"Loading tokenizer from {model_path}...")
-        self.tokenizer = AutoTokenizer.from_pretrained(model_path)
+        self.tokenizer = AutoTokenizer.from_pretrained(model_path, local_files_only=True)
         
         print(f"Loading model from {model_path} on device {self.device}...")
-        self.model = AutoModelForSeq2SeqLM.from_pretrained(model_path)
+        self.model = AutoModelForSeq2SeqLM.from_pretrained(model_path, local_files_only=True)
         self.model.to(self.device)
         self.model.eval()
         
@@ -109,8 +109,8 @@ class QAReader:
             logger.warning("Empty question or context")
             return "Answer: I need both a question and artwork context to provide an answer. || Evidence: "
         
-        # Build the prompt in the same format as training (critical for model performance)
-        prompt = f"Question: {question}\nContext: {context}\nAnswer:"
+        # Build the exact prompt used during Colab fine-tuning
+        prompt = f"Answer the question based strictly on the context. If the answer cannot be found in the context, output exactly 'I am an AI Docent dedicated to this gallery's collection.' Context: {context} Question: {question}"
         
         try:
             # Tokenize input
@@ -137,6 +137,12 @@ class QAReader:
             # Decode output - the model generates just the answer text
             answer = self.tokenizer.decode(outputs[0], skip_special_tokens=True).strip()
             
+            # THE MASTER GUARDRAIL: Check if the model triggered its trained fallback
+            fallback_phrase = "I am an AI Docent dedicated to this gallery's collection. I can only provide information and insights regarding the specific artwork and context we are currently viewing."
+            if fallback_phrase in answer:
+                logger.info("Model successfully triggered its internal trained guardrail.")
+                return f"Answer: {fallback_phrase} || Evidence: "
+
             # GUARDRAIL 1: Check for truncation and retry with longer max_length
             if self._detect_truncation(answer):
                 logger.info(f"Truncation detected, retrying with longer max_length...")

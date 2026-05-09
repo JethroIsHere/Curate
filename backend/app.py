@@ -27,7 +27,7 @@ try:
     print(f"✓ Model loaded from: {reader.model_path}")
     print("Backend fully initialized and ready!")
 except Exception as e:
-    print(f"❌ ERROR loading model in QAReader: {e}")
+    print(f"ERROR loading model in QAReader: {e}")
     # If the model fails, we want to know immediately rather than hanging
 
 # Canonical refusal enforced across the app
