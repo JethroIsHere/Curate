@@ -35,27 +35,37 @@ document.addEventListener("DOMContentLoaded", () => {
         artworkImg.src = `assets/art_images/${imageFilename}`;
         artworkImg.alt = imageFilename.replace(/_/g, ' ').replace(/\.[^.]+$/, '');
         artworkImg.onload = function() {
+            // 1. Layout Flagging
             if (artworkImg.naturalHeight > artworkImg.naturalWidth) {
                 artworkImg.classList.add('portrait');
+                document.body.classList.add('portrait-layout'); // Tells the CSS the layout needs to shift
+            } else {
+                document.body.classList.remove('portrait-layout');
             }
-            try {
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
-                canvas.width = 1;
-                canvas.height = 1;
-                ctx.drawImage(artworkImg, 0, 0, 1, 1);
-                const rgb = ctx.getImageData(0, 0, 1, 1).data;
-                // --- The Contrast Booster ---
-                const boost = 1.5;
-                const r = Math.min(255, Math.floor(rgb[0] * boost));
-                const g = Math.min(255, Math.floor(rgb[1] * boost));
-                const b = Math.min(255, Math.floor(rgb[2] * boost));
-                const glowColor = `rgba(${r}, ${g}, ${b}, 0.6)`;
-                rootStyles.style.setProperty('--ambient-color', glowColor);
-            } catch (error) {
-                console.warn("Canvas pixel extraction blocked (likely running via file://). Ambient glow skipped to prevent crash.");
-            }
-            // Sizing is fully handled by modern CSS.
+
+            // 2. Manual Ambient Colors
+            const customColors = {
+                "The_Swing.jpg": "#174337",            
+                "The_Declaration_of_Love.jpg": "#886A66",          
+                "The_Meeting.jpg": "#50532C", 
+                "Mona_Lisa.jpg": "#6A3A16",
+                "The_Lady_with_an_Ermine.jpg": "#252A45",
+                "The_Creation_of_Adam.jpg": "#826243",
+                "The_Burning_Giraffe.jpg": "#95494F",
+                "Persistence_of_Memory.jpg": "#755C30",
+                "The_Great_War.jpg": "#684774",
+                "The_Gleaners.jpg": "#6A4F2A",
+                "The_Stone_Breakers.jpg": "#6B462F",
+                "Woman_Cleaning_Turnips.jpg": "#64232C",
+                "The_Raft_of_the_Medusa.jpg": "#5B4C2D",
+                "Liberty_Leading_the_People.jpg": "#424C66"                
+            };
+            
+            // Fallback color if you forget to add a painting to the list
+            const fallbackColor = "rgba(80, 80, 80, 0.4)"; 
+            
+            const glowColor = customColors[imageFilename] || fallbackColor;
+            rootStyles.style.setProperty('--ambient-color', glowColor);
         };
     }
 
@@ -63,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
     async function fetchAndDisplayMetadata() {
         if (!artworkImg || !imageFilename) return;
         try {
-            const res = await fetch(`http://127.0.0.1:5000/artwork_metadata?image_filename=${encodeURIComponent(imageFilename)}`);
+            const res = await fetch(`http://192.168.5.106:5000/artwork_metadata?image_filename=${encodeURIComponent(imageFilename)}`);
             if (!res.ok) throw new Error('Not found');
             const data = await res.json();
             // Update title, date, author, medium, movement, description, sources
@@ -217,7 +227,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 // Debug: show exactly what the frontend is sending to the docent
                 console.debug("/chat payload:\n", outgoingPayload);
 
-                const response = await fetch("http://127.0.0.1:5000/chat", {
+                const response = await fetch("http://192.168.5.106:5000/chat", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(outgoingPayload)

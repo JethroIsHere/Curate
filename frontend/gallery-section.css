@@ -286,12 +286,12 @@ html, body {
     object-fit: contain;
 }
 
-/* --- Masonry Wrapper & Columns --- */
+/* --- Masonry Wrapper & Columns (Supporting your JS layout) --- */
 .masonry-wrapper {
-    display: flex; 
-    flex-direction: row;
-    align-items: flex-start; /* Prevents columns from stretching to match each other's heights */
-    gap: 15px; /* Horizontal space between the JS columns */
+    display: flex !important; 
+    flex-direction: row !important;
+    align-items: flex-start; /* Crucial: stops columns from stretching vertically */
+    gap: 15px; /* Mobile gap between columns */
     padding: 30px 15px;
     width: 100%;
     max-width: 1400px; 
@@ -301,9 +301,9 @@ html, body {
     z-index: 10;
 }
 
-/* --- The Buckets --- */
+/* --- The Buckets (Created by your JS) --- */
 .masonry-column {
-    flex: 1; /* Ensures all columns are perfectly equal width */
+    flex: 1; /* Ensures all JS columns are exactly equal width */
     display: flex;
     flex-direction: column;
     gap: 20px; /* Vertical space between artworks */
@@ -312,14 +312,9 @@ html, body {
 
 /* --- Artwork Cards --- */
 .artwork-card {
-    display: inline-block; /* Crucial for column layout */
     width: 100%;
-    min-width: 0;
-    break-inside: avoid; 
-    page-break-inside: avoid; /* Fallback for older browsers */
+    /* We handle the gap via the .masonry-column gap above now! */
 }
-
-/* Image and description styles */
 
 .artwork-img {
     width: 100%;
@@ -327,26 +322,21 @@ html, body {
     max-height: 300px;
     border-radius: 30px;
     border: 1px solid #ffffff;
-    object-fit: contain;
+    object-fit: cover;
     background: #222;
     display: block;
     aspect-ratio: 4/3;
     transition: aspect-ratio 0.2s, max-height 0.2s;
 }
 
-/* Portrait images get a special class for different aspect ratio */
+/* --- PORTRAIT FIX --- */
 .artwork-img.portrait {
     aspect-ratio: 3/4;
     max-height: 350px;
-    width: auto;
-    height: 100%;
-    margin: 0 auto;
+    width: 100%; /* CRITICAL: Forces image to respect column width */
+    height: auto; /* CRITICAL: Prevents vertical overlapping */
     display: block;
 }
-
-/* Utility classes for staggered heights (Desktop/Backend logic) */
-.h-200 { height: 200px; }
-.h-300 { height: 300px; }
 
 /* --- Description Truncation --- */
 .artwork-desc {
