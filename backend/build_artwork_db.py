@@ -19,12 +19,12 @@ IMAGE_MAP = {
     "The Gleaners": "The_Gleaners.jpg",
     "The Stone Breakers": "The_Stone_Breakers.jpg",
     "Woman Cleaning Turnips": "Woman_Cleaning_Turnips.jpg",
-    "The Raft of Medusa": "The_Raft_of_the_Medusa.jpg", 
+    "The Raft of the Medusa": "The_Raft_of_the_Medusa.jpg", 
     "Liberty Leading the People": "Liberty_Leading_the_People.jpg"
 }
 
 def build():
-    # 1. Nuke the old DB
+    # Nuke the old DB
     if os.path.exists(DB_PATH):
         os.remove(DB_PATH)
         print("🗑️ Deleted old corrupted database.")
@@ -32,7 +32,7 @@ def build():
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
 
-    # 2. Create the unified schema that app.py expects
+    # Create the unified schema that app.py expects
     c.execute('''
         CREATE TABLE artworks (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -49,7 +49,7 @@ def build():
         )
     ''')
 
-    # 3. Read your actual CSV
+    # Read your actual CSV
     df = pd.read_csv(CSV_PATH)
     inserted = 0
 
@@ -76,7 +76,7 @@ def build():
 
     conn.commit()
     conn.close()
-    print(f"✅ SUCCESS: Master DB built with {inserted} artworks!")
+    print(f"SUCCESS: Master DB built with {inserted} artworks!")
 
 if __name__ == "__main__":
     build()
