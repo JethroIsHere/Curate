@@ -86,6 +86,8 @@ document.addEventListener("DOMContentLoaded", () => {
             rootStyles.style.setProperty('--ambient-color', glowColor);
 
             rootStyles.style.setProperty('--link-color', linkColors[imageFilename] || '#37A5FF');
+
+            rootStyles.style.setProperty('--user-bubble-color', customColors[imageFilename] || '#9c5d10');
         };
     }
 
@@ -167,23 +169,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Wait 800ms for the smooth scroll animation to finish
             setTimeout(() => {
-                // Pop the bubble
                 bubble.classList.add('show-bubble');
 
-                // Set the 5-second auto-hide timer
                 const hideTimer = setTimeout(() => {
                     bubble.classList.remove('show-bubble');
                 }, 5000);
 
-                // Create the manual scroll-to-hide function
                 const hideOnUserScroll = () => {
                     bubble.classList.remove('show-bubble');
-                    clearTimeout(hideTimer); // Cancel the 5-second timer if they scroll early
-                    window.removeEventListener('scroll', hideOnUserScroll); // Clean up the listener
+                    clearTimeout(hideTimer); 
+                    window.removeEventListener('scroll', hideOnUserScroll); 
                 };
 
-                // Wait another tiny fraction of a second before listening for scrolls
-                // to ensure the browser is completely done with the auto-scroll
                 setTimeout(() => {
                     window.addEventListener('scroll', hideOnUserScroll, { once: true });
                 }, 100);
@@ -191,51 +188,56 @@ document.addEventListener("DOMContentLoaded", () => {
             }, 600); 
         });
 
-        // Still let them dismiss it by clicking the bubble or top button directly
         const dismissBubble = () => bubble.classList.remove('show-bubble');
         bubble.addEventListener('click', dismissBubble);
-        document.querySelector('.docent-btn').addEventListener('click', dismissBubble);
+        const docentBtnElement = document.querySelector('.docent-btn');
+        if(docentBtnElement) docentBtnElement.addEventListener('click', dismissBubble);
     }
 
 
     // --- AI Docent Slide-In Panel Logic ---
-    const topDocentBtn = document.querySelector('.docent-btn');
+    const topDocentBtn = document.getElementById('AIDocentBtn'); 
     const docentPanel = document.getElementById('docentPanel');
     const docentOverlay = document.getElementById('docentOverlay');
     const closeChatBtn = document.getElementById('closeChatBtn');
 
-    // Function to slide the chat open
+    // Functions MUST be declared before we attach them to the buttons!
     const openChat = () => {
         if (docentPanel && docentOverlay) {
             docentPanel.classList.add('active');
             docentOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden'; // Locks the background from scrolling
+            document.body.style.overflow = 'hidden'; // Locks background
         }
     };
 
-    // Function to slide the chat closed
     const closeChat = () => {
         if (docentPanel && docentOverlay) {
             docentPanel.classList.remove('active');
             docentOverlay.classList.remove('active');
-            document.body.style.overflow = ''; // Unlocks the background
+            document.body.style.overflow = ''; // Unlocks background
         }
     };
 
-    // Listen for clicks on the top button, CTA button, close button, or the dark overlay background
+    // Attach the exact listeners (Notice ctaBtn is completely removed from here!)
     if (topDocentBtn) topDocentBtn.addEventListener('click', openChat);
-    if (ctaBtn) ctaBtn.addEventListener('click', openChat);
     if (closeChatBtn) closeChatBtn.addEventListener('click', closeChat);
     if (docentOverlay) docentOverlay.addEventListener('click', closeChat);
+
 
     // --- Chatbot Data Fetching Logic ---
     const chatInput = document.getElementById('chatInput');
     const sendBtn = document.getElementById('sendBtn');
     const chatHistory = document.getElementById('chatHistory');
     const loadingIndicator = document.getElementById('loadingIndicator');
-    
-    // We will extract the description dynamically from the page to use as RAG context!
     const contextParagraph = document.querySelector('.description-text');
+
+    // Disable Send Button when empty
+    if (chatInput && sendBtn) {
+        sendBtn.disabled = true;
+        chatInput.addEventListener('input', () => {
+            sendBtn.disabled = chatInput.value.trim() === '';
+        });
+    }
 
     const appendMessage = (text, sender) => {
         const msgDiv = document.createElement('div');
@@ -243,14 +245,10 @@ document.addEventListener("DOMContentLoaded", () => {
         
         const bubble = document.createElement('div');
         bubble.classList.add('bubble');
-        bubble.innerHTML = text; // allow basic HTML, or use innerText for strict safety
+        bubble.innerHTML = text; 
         
         msgDiv.appendChild(bubble);
-        
-        // Insert right before the loading indicator
         chatHistory.insertBefore(msgDiv, loadingIndicator);
-        
-        // Auto-scroll to bottom
         chatHistory.scrollTop = chatHistory.scrollHeight;
     };
 
@@ -258,39 +256,31 @@ document.addEventListener("DOMContentLoaded", () => {
         const text = chatInput.value.trim();
         if (!text) return;
 
-        // 1. Show user message
+        // Show user message & reset input/button
         appendMessage(text, 'user');
         chatInput.value = '';
+        sendBtn.disabled = true; 
         
-        // 2. Show loading indicator
         loadingIndicator.style.display = 'flex';
         chatHistory.scrollTop = chatHistory.scrollHeight;
 
         try {
-            // 3. Send to local Flask backend
-                const outgoingPayload = {
-                    question: text,
-                    // Prefer the explicit artwork context; fall back to the visible description text.
-                    artwork_context: window.__artworkContext || (contextParagraph ? contextParagraph.innerText : ""),
-                    // Always include the image filename so the backend can fall back to DB context
-                    image_filename: imageFilename
-                };
+            const outgoingPayload = {
+                question: text,
+                artwork_context: window.__artworkContext || (contextParagraph ? contextParagraph.innerText : ""),
+                image_filename: imageFilename
+            };
 
-                // Debug: show exactly what the frontend is sending to the docent
-                console.debug("/chat payload:\n", outgoingPayload);
-
-                const response = await fetch("http://192.168.86.66:5000/chat", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(outgoingPayload)
-                });
+            const response = await fetch("http://192.168.86.66:5000/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(outgoingPayload)
+            });
 
             const data = await response.json();
             
-            // 4. Hide loading indicator
             loadingIndicator.style.display = 'none';
 
-            // 5. Show docent response
             if (data.answer) {
                 appendMessage(data.answer, 'docent');
             } else if (data.error) {
@@ -310,10 +300,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (chatInput) {
         chatInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
+            if (e.key === 'Enter' && !sendBtn.disabled) {
                 sendMessage();
             }
         });
     }
 
-});
+}); 
