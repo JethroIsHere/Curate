@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const grid = document.getElementById('masonryGrid');
         if (!grid) return;
         try {
-            const res = await fetch('http://192.168.5.106:5000/artworks');
+            const res = await fetch('http://192.168.86.66:5000/artworks');
             const artworks = await res.json();
             let filteredEra = null;
             if (window.__galleryEraFilter) filteredEra = window.__galleryEraFilter;

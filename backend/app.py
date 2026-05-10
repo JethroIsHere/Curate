@@ -361,7 +361,7 @@ def get_metadata():
             data['description'] = data.get('overview') or data.get('context') or data.get('description')
             if not data.get('medium'):
                 data['medium'] = "Oil on canvas"
-            data['sources'] = _parse_sources(data.get('website_links') or data.get('sources') or '') or "Unknown"
+            data['sources'] = data.get('website_links') or data.get('Website Name and Links') or data.get('sources') or "Unknown"
             return jsonify(data)
         return jsonify({"error": "Artwork not found"}), 404
     except Exception as e:

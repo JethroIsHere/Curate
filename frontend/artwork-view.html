@@ -18,7 +18,7 @@
         </button>
         
         <div class="docent-nav-wrapper">
-            <button class="nav-btn docent-btn" aria-label="Ask AI Docent">
+            <button class="nav-btn docent-btn" aria-label="Ask AI Docent" id="AIDocentBtn">
                 <img src="assets/icon_images/docent.png" alt="AI Docent" class="btn-icon">
             </button>
             
@@ -56,7 +56,7 @@
             </div>
 
             <div class="docent-cta">
-                <p class="cta-text">“There is a profound mix of brutal realism and classical myth hidden in this crowd. Shall we examine the figures?”</p>
+                <p class="cta-text" id="docentText"></p>
                 <button class="chat-trigger" id="docentCtaBtn">Talk to the Docent</button>
             </div>
         </div>
@@ -110,9 +110,9 @@
             </div>
 
             <div class="chat-message docent loading-message" id="loadingIndicator" style="display: none;">
-                <div class="bubble typing-indicator">
-                    <span></span><span></span><span></span>
-                </div>
+                <div class="bubble thinking-indicator">
+                Extracting the answer from context<span class="dots"></span>
+            </div>
             </div>
         </div>
 
@@ -121,6 +121,10 @@
             <button class="send-btn" id="sendBtn" aria-label="Send message">
                 <img src="assets/icon_images/send.png" alt="Send" class="send-icon">
             </button> 
+        </div>
+
+        <div class="ai-disclaimer">
+            The AI Docent may occasionally make mistakes. Refer to important historical facts from sources provided in the artwork description.
         </div>
 
     </aside>
