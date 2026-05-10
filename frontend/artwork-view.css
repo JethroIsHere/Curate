@@ -196,13 +196,13 @@ body {
 }
 
 .description-sources a {
-    color: #37A5FF;
+    color: var(--link-color, #37A5FF); /* Falls back to blue if no color is set */
     text-decoration: none;
-    transition: color 0.3s ease;
+    transition: color 0.3s ease, filter 0.3s ease;
 }
 
 .description-sources a:hover {
-    color: #88C9FF;
+    filter: brightness(1.5); /* Automatically makes your dynamic color 50% brighter on hover */
     text-decoration: underline;
 }
 
