@@ -20,23 +20,25 @@ Curate/
 │   ├── requirements.txt
 │   ├── artworks.db
 │   ├── artwork_data.csv
-│   ├── curate_dataset.csv
-│   ├── curate_dataset_clean.csv
+│   ├── evaluation_metrics.py
+│   ├── curate_dataset_final.csv
 │   ├── curate_dataset_updated.csv
-│   ├── curate_dataset_updated_clean.csv
-│   ├── clean_dataset.ipynb
-│   ├── finetune_flan_t5_base_baseline.ipynb
-│   ├── finetune_flan_t5_base_colab.ipynb
-│   ├── finetune_flan_t5_base_updated.ipynb
-│   ├── finetune_flan_t5_base_updated_clean.ipynb
-│   └── flan_t5_base_docent_*_final/
+│   ├── docent-flan-t5-finetuned-tweaked1/
+│   └── docent-flan-t5-finetuned-final/
+│ 
 └── frontend/
-    ├── index.html
-    ├── hero-section.*
-    ├── gallery-section.*
-    ├── artwork-view.*
-    ├── about_us-section.*
-    └── assets/
+│   ├── index.html
+│   ├── hero-section.*
+│   ├── gallery-section.*
+│   ├── artwork-view.*
+│   ├── about_us-section.*
+│   └── assets/
+│
+└── notebooks/
+    ├── curate_baseline.ipynb
+    ├── curate_fine_tuned_final.ipynb
+    ├── curate_fine_tuned_tweaked1.ipynb
+    └── curate_fine_tuned_tweaked2.ipynb
 ```
 
 ## Overview
