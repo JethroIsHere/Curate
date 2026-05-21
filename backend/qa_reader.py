@@ -22,7 +22,7 @@ class QAReader:
         if model_path is None:
             model_path = os.environ.get(
                 "DOCENT_MODEL_PATH",
-                "./docent-flan-t5-finetuned-tweaked1",
+                "./docent-flan-t5-finetuned-final"  # The final model settled on after evaluation,
             )
 
         # Resolve model path
@@ -126,10 +126,10 @@ class QAReader:
                 outputs = self.model.generate(
                     **inputs,
                     max_length=max_length,
-                    num_beams=6,           # UPDATED: Use your winning beam count
+                    num_beams=5,           # UPDATED: Use your winning beam count
                     no_repeat_ngram_size=2,
                     repetition_penalty=1.2,
-                    length_penalty=0.9,    # UPDATED: Use your winning penalty
+                    length_penalty=1.2,    # UPDATED: Use your winning penalty
                     early_stopping=True,
                     do_sample=False,
                 )
@@ -138,10 +138,13 @@ class QAReader:
             answer = self.tokenizer.decode(outputs[0], skip_special_tokens=True).strip()
             
             # THE MASTER GUARDRAIL: Check if the model triggered its trained fallback
-            fallback_phrase = "I am an AI Docent dedicated to this gallery's collection. I can only provide information and insights regarding the specific artwork and context we are currently viewing."
-            if fallback_phrase in answer:
+            # We check for the prefix it was trained on, and map it to the blended refusal
+            trained_fallback = "I am an AI Docent dedicated to this gallery's collection."
+            blended_refusal = "I am an AI Docent dedicated to this gallery's collection. I apologize, but my notes do not cover that specific detail regarding the artwork we are currently viewing."
+            
+            if trained_fallback in answer:
                 logger.info("Model successfully triggered its internal trained guardrail.")
-                return f"Answer: {fallback_phrase} || Evidence: "
+                return f"Answer: {blended_refusal} || Evidence: "
 
             # GUARDRAIL 1: Check for truncation and retry with longer max_length
             if self._detect_truncation(answer):
@@ -150,10 +153,10 @@ class QAReader:
                     outputs = self.model.generate(
                         **inputs,
                         max_length=min(512, max_length + 128),  # Increase by 128 tokens, cap at 512
-                        num_beams=4,
+                        num_beams=6,
                         no_repeat_ngram_size=2,
                         repetition_penalty=1.2,
-                        length_penalty=0.6,
+                        length_penalty=0.9,
                         early_stopping=True,
                         do_sample=False,
                     )
@@ -162,11 +165,11 @@ class QAReader:
             # GUARDRAIL 2: Final validation after potential retry
             if not self._is_valid_answer(answer, min_answer_length):
                 logger.warning(f"Answer failed validation after retry. Q: {question[:50]}... A: {answer[:50]}...")
-                return f"Answer: I apologize, but I don't have detailed information about that aspect of this artwork. || Evidence: "
+                return f"Answer: {blended_refusal} || Evidence: "
             
             # GUARDRAIL 3: Check for empty or generic responses
             if answer.lower() in ['', 'unknown', 'n/a', 'not available']:
-                return f"Answer: I apologize, but I don't have detailed information about that aspect of this artwork. || Evidence: "
+                return f"Answer: {blended_refusal} || Evidence: "
             
             logger.info(f"Valid answer generated. Q: {question[:50]}... A: {answer[:50]}...")
             return f"Answer: {answer} || Evidence: "
