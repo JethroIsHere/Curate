@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
     async function fetchAndDisplayMetadata() {
         if (!artworkImg || !imageFilename) return;
         try {
-            const res = await fetch(`http://192.168.86.66:5000/artwork_metadata?image_filename=${encodeURIComponent(imageFilename)}`);
+            const res = await fetch(`http://192.168.86.172:5000/artwork_metadata?image_filename=${encodeURIComponent(imageFilename)}`);
             if (!res.ok) throw new Error('Not found');
             const data = await res.json();
             // Update title, date, author, medium, movement, description
@@ -271,7 +271,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 image_filename: imageFilename
             };
 
-            const response = await fetch("http://192.168.86.66:5000/chat", {
+            const response = await fetch("http://192.168.86.172:5000/chat", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(outgoingPayload)

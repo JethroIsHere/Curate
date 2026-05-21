@@ -31,7 +31,8 @@ except Exception as e:
     # If the model fails, we want to know immediately rather than hanging
 
 # Canonical refusal enforced across the app
-CANONICAL_REFUSAL = "I apologize, but my notes do not cover that detail."
+# Canonical refusal enforced across the app - Blends Docent persona with missing context apology
+CANONICAL_REFUSAL = "I am an AI Docent dedicated to this gallery's collection. I apologize, but my notes do not cover that specific detail regarding the artwork we are currently viewing."
 _EMBED_MODEL = None
 _QA_CROSS_ENCODER = None
 
@@ -193,7 +194,9 @@ def _answer_matches_question(question_text: str, answer_text: str) -> bool:
     generic_markers = [
         'i am an ai docent',
         'i can only provide information',
-        'i am dedicated to this gallery'
+        'i am dedicated to this gallery',
+        'i apologize, but my notes',
+        'my notes do not cover that'
     ]
     if any(g in a_norm for g in generic_markers):
         return False
@@ -402,7 +405,9 @@ def chat():
         "i don't have detailed information", 
         "i do not have detailed information",
         "i don't have information", 
-        "i do not have information"
+        "i do not have information",
+        "i am an ai docent dedicated to this gallery",
+        "i can only provide information"
     ]):
         answer_text = CANONICAL_REFUSAL
         evidence_text = ''

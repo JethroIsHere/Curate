@@ -1,11 +1,22 @@
-Flask==3.0.0
-Flask-Cors==4.0.0
-transformers==4.35.0
-datasets==2.14.6
-torch>=2.0.0
-nltk==3.8.1
-scikit-learn==1.3.2
-SentencePiece==0.1.99
-numpy
-peft
-accelerate
+# Server & API Routing
+Flask==3.1.3
+flask-cors==6.0.2
+
+# Deep Learning Framework
+torch==2.11.0+cpu
+
+# Machine Learning & Core NLP Libraries
+transformers==5.8.0
+sentencepiece==0.2.1
+numpy==2.4.3
+scikit-learn==1.8.0
+datasets==4.8.5
+
+# Fine-Tuning, Training Acceleration, & Optimization
+accelerate==1.13.0
+
+# Evaluation Frameworks & Metric Computations (added for evaluation purposes)
+evaluate==0.4.6
+sentence-transformers==5.4.1
+rouge_score==0.1.2
+nltk==3.9.4

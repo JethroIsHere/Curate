@@ -32,7 +32,7 @@ def run_evaluation():
 
         print("[Step 5] Loading Dataset...")
         # CHANGE THIS to your actual test dataset filename
-        csv_path = "curate_dataset_updated.csv" 
+        csv_path = "curate_dataset_final.csv" 
         df = pd.read_csv(csv_path).head(45) #checking 200rows of data from dataset
         
         print(f"         -> Found {len(df)} rows to evaluate.")
