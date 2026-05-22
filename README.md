@@ -2,13 +2,6 @@
 
 Curate is an AI art docent system for browsing artworks and asking context-grounded questions about them. It combines a Flask backend, a static frontend, curated artwork metadata, and a fine-tuned Flan-T5 model to generate short answers with evidence.
 
-## What Changed
-
-- The frontend now lives under `frontend/` instead of flat top-level files.
-- The backend lives in `backend/` and loads the current best checkpoint by default.
-- Evaluation now includes BLEU alongside ROUGE and perplexity.
-- The repo includes updated notebooks, curated datasets, and the artwork database used for the current model.
-
 ## Repository Layout
 
 ```text
